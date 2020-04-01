@@ -27,7 +27,7 @@ public class RecipeController{
     return repository.save(newRecipe);
   }
 
-  @GetMapping("recipe/get")
+  @GetMapping("recipes")
   public List<Recipe> all() {
     return repository.findAll();
   }
