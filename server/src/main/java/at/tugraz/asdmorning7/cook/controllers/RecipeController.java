@@ -22,7 +22,7 @@ public class RecipeController{
     this.repository = repository;
   }
 
-  @PostMapping("recipe/post")
+  @PostMapping("recipes")
   public Recipe addRecipe(@RequestBody Recipe newRecipe) {
     return repository.save(newRecipe);
   }
