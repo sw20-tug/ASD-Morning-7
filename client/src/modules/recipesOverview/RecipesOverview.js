@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchFavourites, fetchRecipes} from "./recipesOverviewActions";
+import {fetchFavourites, fetchRecipes} from "../recipes/recipesActions";
 import RecipesList from "./components/RecipesList";
 import Typography from "@material-ui/core/Typography";
 

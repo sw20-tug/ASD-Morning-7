@@ -1,10 +1,10 @@
 import {combineReducers} from "redux";
 import appReducer from "./modules/app/appReducer";
-import recipesOverviewReducer from "./modules/recipesOverview/recipesOverviewReducer";
+import recipesReducer from "./modules/recipes/recipesReducer";
 
 const reducers = combineReducers({
     appReducer,
-    recipesOverviewReducer
+    recipesOverviewReducer: recipesReducer
 });
 
 export default reducers;
