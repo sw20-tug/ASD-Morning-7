@@ -40,7 +40,7 @@ public class RecipeController{
             .orElseThrow(() -> new RecipeNotFoundException(id));
   }
 
-  @PutMapping("recipe/update/{id}")
+  @PutMapping("recipes/{id}")
   Recipe replaceEmployee(@RequestBody Recipe newRecipe, @PathVariable Long id) {
 
     return repository.findById(id)
