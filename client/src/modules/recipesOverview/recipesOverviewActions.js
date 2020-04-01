@@ -31,7 +31,7 @@ const generateRecipes = () => {
         });
     }
     return recipes;
-}
+};
 
 
 export const fetchRecipes = (dispatch) => {
