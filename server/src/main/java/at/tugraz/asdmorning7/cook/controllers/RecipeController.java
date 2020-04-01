@@ -55,7 +55,7 @@ public class RecipeController{
             });
   }
 
-  @DeleteMapping("recipe/delete/{id}")
+  @DeleteMapping("recipes/{id}")
   void deleteRecipe(@PathVariable Long id) {
     repository.deleteById(id);
   }
