@@ -1,10 +1,10 @@
 package at.tugraz.asdmorning7.cook.exceptions;
 
-
-@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Actor Not Found")
 public class RecipeNotFoundException extends RuntimeException {
 
-  public RecipeNotFoundException(Long id) {
-    super("Could not find recipe " + id);
-  }
+    private static final long serialVersionUID = 1026838365853320947L;
+
+    public RecipeNotFoundException(Long id) {
+        super("Could not find resource" + id);
+    }
 }
