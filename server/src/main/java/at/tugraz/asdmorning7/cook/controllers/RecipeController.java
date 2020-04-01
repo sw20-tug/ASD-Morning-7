@@ -33,7 +33,7 @@ public class RecipeController{
   }
 
   // Single item
-  @GetMapping("recipe/get/{id}")
+  @GetMapping("recipes/{id}")
   Recipe one(@PathVariable Long id) {
 
     return repository.findById(id)
