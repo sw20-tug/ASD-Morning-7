@@ -1,19 +1,50 @@
 import {
     FETCH_RECIPES,
     FETCH_RECIPES_SUCCESS,
-    FETCH_RECIPES_FAILURE, SHOW_ONLY_FAVOURITES, SHOW_ALL
-} from "./recipesOverviewActions";
+    FETCH_RECIPES_FAILURE,
+    SHOW_ONLY_FAVOURITES,
+    SHOW_ALL,
+    ADD_RECIPE,
+    ADD_RECIPE_SUCCESS,
+    ADD_RECIPE_FAILURE
+} from "./recipesActions";
 
 const initState = {
     recipes: [],
     fetchRecipesLoading: false,
     fetchRecipesSuccess: false,
     fetchRecipesFailure: false,
-    showOnlyFavourites: false
+    showOnlyFavourites: false,
+
+    addRecipeLoading: false,
+    addRecipeSuccess: false,
+    addRecipeFailure: false
 };
 
-const recipesOverviewReducer = (state = initState, action) => {
+const recipesReducer = (state = initState, action) => {
     switch (action.type) {
+        case ADD_RECIPE:
+            return {
+                ...state,
+                addRecipeLoading: true,
+                addRecipeSuccess: false,
+                addRecipeFailure: false
+            };
+        case ADD_RECIPE_SUCCESS:
+            return {
+                ...state,
+                addRecipeLoading: false,
+                addRecipeSuccess: true,
+                addRecipeFailure: false,
+                recipes: [action.recipe, ...state.recipes]
+            };
+        case ADD_RECIPE_FAILURE:
+            return {
+                ...state,
+                addRecipeLoading: false,
+                addRecipeSuccess: false,
+                addRecipeFailure: true
+            };
         case FETCH_RECIPES:
             return {
                 ...state,
@@ -53,4 +84,4 @@ const recipesOverviewReducer = (state = initState, action) => {
     }
 };
 
-export default recipesOverviewReducer;
+export default recipesReducer;
