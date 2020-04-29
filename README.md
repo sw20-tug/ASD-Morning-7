@@ -34,7 +34,7 @@ COOK is a single-user application for managing personal cooking recipes.
 
 ### Built With
 
-Based on modern web technologies and frameworks, COOK is build using:
+Based on modern web technologies and frameworks, COOK is built using:
 
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [React](https://reactjs.org)
