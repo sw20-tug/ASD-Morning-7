@@ -16,7 +16,7 @@ export default function AddRecipeDialog(props) {
     const [recipe, setRecipe] = useState({
         name: "",
         type: "",
-        summary: "",
+        description: "",
         steps: [{
             // this will be set after
             // before sending the
@@ -184,7 +184,7 @@ export default function AddRecipeDialog(props) {
                     variant="outlined"
                     multiline
                     rows="4"
-                    onChange={(event) => setRecipe({...recipe, summary: event.target.value})}
+                    onChange={(event) => setRecipe({...recipe, description: event.target.value})}
                 />
                 <div style={{marginTop: 10, width: '100%'}}>
                     <TextField

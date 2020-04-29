@@ -1,4 +1,4 @@
-package at.tugraz.asdmorning7.cook.controllers.integration;
+package at.tugraz.asdmorning7.cook.integration;
 
 import at.tugraz.asdmorning7.cook.controllers.RecipeController;
 
