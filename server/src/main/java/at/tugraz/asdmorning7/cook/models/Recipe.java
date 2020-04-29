@@ -1,27 +1,55 @@
 package at.tugraz.asdmorning7.cook.models;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Recipe {
+
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotNull
     private String name;
+
+    @Lob
+    @NotNull
     private String description;
+
+    @NotNull
     private String type;
+
+    @NotNull
     private int cookingTime;
+
+    @NotNull
     private int preparationTime;
+
+    @Lob
+    @NotNull
     private String thumbnail;
+
     private boolean isFavorite;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @JsonManagedReference("recipe_steps")
+    private Set<Step> steps;
 
     public Recipe() {
     }
 
     public Recipe(String name, String description, String type, int preparationTime, int cookingTime,
-            String cookingInstructions, String thumbnail, boolean isFavorite) {
+            String cookingInstructions, String thumbnail, boolean isFavorite, Set<Step> steps) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -29,11 +57,16 @@ public class Recipe {
         this.cookingTime = cookingTime;
         this.thumbnail = thumbnail;
         this.isFavorite = isFavorite;
+        this.steps = steps;
     }
 
     /*
      * Getters
      */
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -62,13 +95,13 @@ public class Recipe {
         return isFavorite;
     }
 
+    public Set<Step> getSteps() {
+        return steps;
+    }
+
     /*
      * Setters
      */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -95,5 +128,9 @@ public class Recipe {
 
     public void setIsFavorite(boolean isFavorite) {
         this.isFavorite = isFavorite;
+    }
+
+    public void setSteps(Set<Step> steps) {
+        this.steps = steps;
     }
 }
