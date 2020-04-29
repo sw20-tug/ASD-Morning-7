@@ -4,8 +4,13 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
+import AddRecipeDialog from "./AddRecipeDialog/AddRecipeDialog";
 
 class Navigation extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         return (
@@ -18,9 +23,15 @@ class Navigation extends React.Component {
                         <div>
                             <Button color="inherit" onClick={() => this.props.showOnlyFavourites(false)}>All Recipes</Button>
                             <Button color="inherit" onClick={() => this.props.showOnlyFavourites(true)}>Favourites</Button>
+                            <Button color="inherit" onClick={this.props.showAddRecipeDialog}>Add Recipe</Button>
                         </div>
                     </Toolbar>
                 </AppBar>
+                <AddRecipeDialog
+                    open={this.props.addRecipeDialogVisible}
+                    close={this.props.hideAddRecipeDialog}
+                    addRecipe={this.props.addRecipe}
+                />
             </div>
         );
     }

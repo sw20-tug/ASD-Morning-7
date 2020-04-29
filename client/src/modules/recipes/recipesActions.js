@@ -6,6 +6,10 @@ export const FETCH_RECIPES_FAILURE = 'recipes/fetch-recipes-failure';
 export const SHOW_ONLY_FAVOURITES = 'recipes/fetch-recipes-show-only-favourites';
 export const SHOW_ALL = 'recipes/fetch-recipes-show-all';
 
+export const ADD_RECIPE = 'app/add-recipe';
+export const ADD_RECIPE_SUCCESS = 'app/add-recipe-success';
+export const ADD_RECIPE_FAILURE = 'app/add-recipe-failure';
+
 const generateRecipes = () => {
     const step = {
         number: 1,
@@ -31,7 +35,7 @@ const generateRecipes = () => {
         });
     }
     return recipes;
-}
+};
 
 
 export const fetchRecipes = (dispatch) => {
@@ -78,4 +82,19 @@ export const showOnlyFavourites = (dispatch, enable) => {
         return;
     }
     fetchRecipes(dispatch);
+};
+
+export const addRecipe = (dispatch, recipe) => {
+
+    dispatch({type: ADD_RECIPE});
+
+    dispatch({type: ADD_RECIPE_SUCCESS, recipe});
+    /*
+    axios.post('recipes', recipe).then(res => {
+        dispatch({type: ADD_RECIPE_SUCCESS, recipe: res.data});
+    }).catch(err => {
+        dispatch({ADD_RECIPE_FAILURE});
+        console.log('Could not add recipe', err);
+    })
+     */
 };

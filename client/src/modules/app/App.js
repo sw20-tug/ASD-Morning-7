@@ -4,7 +4,9 @@ import {Route, Switch} from "react-router";
 import {HashRouter, Link} from "react-router-dom";
 import RecipesOverview from "../recipesOverview/RecipesOverview";
 import Navigation from './components/Navigation';
-import {showOnlyFavourites} from "../recipesOverview/recipesOverviewActions";
+import {addRecipe, showOnlyFavourites} from "../recipes/recipesActions";
+import {hideAddRecipeDialog, showAddRecipeDialog} from "./appActions";
+import appReducer from "./appReducer";
 
 class App extends React.Component {
 
@@ -16,7 +18,13 @@ class App extends React.Component {
         return (
             <HashRouter>
                 <div style={{marginLeft: 25, marginRight: 25}}>
-                    <Navigation showOnlyFavourites={this.props.showOnlyFavourites}/>
+                    <Navigation
+                        showOnlyFavourites={this.props.showOnlyFavourites}
+                        addRecipeDialogVisible={this.props.addRecipeDialogVisible}
+                        showAddRecipeDialog={this.props.showAddRecipeDialog}
+                        hideAddRecipeDialog={this.props.hideAddRecipeDialog}
+                        addRecipe={this.props.addRecipe}
+                    />
                     <Switch>
                         <Route exact path={'/'} render={(props) => {
                             return <RecipesOverview props={props}/>
@@ -37,12 +45,17 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        addRecipeDialogVisible: state.appReducer.addRecipeDialogVisible
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        showOnlyFavourites: (enable) => showOnlyFavourites(dispatch, enable)
+        showOnlyFavourites: (enable) => showOnlyFavourites(dispatch, enable),
+        showAddRecipeDialog: () => showAddRecipeDialog(dispatch),
+        hideAddRecipeDialog: () => hideAddRecipeDialog(dispatch),
+        addRecipe: (recipe) => addRecipe(dispatch, recipe)
     };
 };
 
