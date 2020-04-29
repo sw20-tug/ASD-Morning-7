@@ -1,4 +1,6 @@
-package at.tugraz.asdmorning7.cook.controllers;
+package at.tugraz.asdmorning7.cook.controllers.integration;
+
+import at.tugraz.asdmorning7.cook.controllers.RecipesController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
