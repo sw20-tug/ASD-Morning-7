@@ -12,7 +12,7 @@
 	<artifactId>cook</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cook</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Personal cookbook</description>
 
 	<properties>
 		<java.version>13</java.version>
@@ -44,7 +44,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

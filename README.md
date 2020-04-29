@@ -6,7 +6,7 @@
 <p align="center">
     <h3 align="center">COOK</h3>
     <p align="center">
-        TBD <br>
+        Personal cookbook<br>
         <a href="https://github.com/sw20-tug/ASD-Morning-7/wiki"><strong>Explore the docs »</strong></a>
         <br><br>
         <a href="https://github.com/sw20-tug/ASD-Morning-7/issues">Report Bug</a>
@@ -22,7 +22,6 @@
   - [Built With](#built-with)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
 - [Usage](#usage)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
@@ -31,9 +30,11 @@
 
 ## About The Project
 
-TBD
+COOK is a single-user application for managing personal cooking recipes.
 
 ### Built With
+
+Based on modern web technologies and frameworks, COOK is build using:
 
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [React](https://reactjs.org)
@@ -44,15 +45,18 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-TBD
-
-### Installation
-
-TBD
+- [Java 13](https://openjdk.java.net/projects/jdk/13)
 
 ## Usage
 
-TBD
+- For starting COOK, switch to the *server* directory and use the command below:
+    ```console
+    ./mvnw spring-boot:run
+    ```
+- To run all unit tests, issue the following command:
+    ```console
+    ./mvnw test
+    ```
 
 _For more examples, please refer to the [Documentation](https://github.com/sw20-tug/ASD-Morning-7/wiki)_.
 
@@ -64,11 +68,21 @@ See the [GitHub Project](https://github.com/sw20-tug/ASD-Morning-7/projects/1) f
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/COOK_<issue_ID>`)
-3. Commit your Changes (`git commit`)
-4. Push to the Branch (`git push origin feature/COOK_<issue_ID>`)
-5. Open a Pull Request
+1. Fork the project
+2. Create your feature branch:
+    ```console
+    git checkout -b feature/COOK_<issue_ID>
+    ```
+3. Commit your changes:
+    ```console
+    git commit -m 'COOK-<issue_id> <short_description> <list_of_author_initials>'
+    # Example (author: John Doe): git commit -m 'COOK-003C Implement certain functionality [DJ]'
+    ```
+4. Push to the feature branch:
+    ```console
+    git push origin feature/COOK_<issue_ID>
+    ```
+5. Open a pull request
 
 ## License
 
@@ -77,7 +91,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Acknowledgements
 
 - README [template](https://github.com/othneildrew/Best-README-Template)
-- Icons made by [Nikita Golubev](https://www.flaticon.com/authors/nikita-golubev) from [Flaticon](https://www.flaticon.com/)
 
 [contributors-shield]: https://img.shields.io/github/contributors/sw20-tug/ASD-Morning-7.svg?style=flat-square
 [contributors-url]: https://github.com/sw20-tug/ASD-Morning-7/graphs/contributors
