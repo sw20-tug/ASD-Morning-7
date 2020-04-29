@@ -1,8 +1,8 @@
 package at.tugraz.asdmorning7.cook.controllers.unit;
 
-import at.tugraz.asdmorning7.cook.controllers.RecipesController;
 import at.tugraz.asdmorning7.cook.models.Recipe;
-import at.tugraz.asdmorning7.cook.repositories.RecipesRepository;
+import at.tugraz.asdmorning7.cook.controllers.RecipeController;
+import at.tugraz.asdmorning7.cook.repositories.RecipeRepository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -27,11 +27,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
-@WebMvcTest(RecipesController.class)
+@WebMvcTest(RecipeController.class)
 class RecipesControllerUnitTest {
 
     @MockBean
-    private RecipesRepository repository;
+    private RecipeRepository repository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,15 +39,15 @@ class RecipesControllerUnitTest {
     @Test
     public void getAllRecipesTest() throws Exception {
         List<Recipe> recipes = new ArrayList<Recipe>();
-        // (String name, String description, String type, int preparationTime, int cookingTime,
-        // String cookingInstructions, String thumbnail, boolean isFavorite)
-        recipes.add(new Recipe("r1", "d1", "t1", 1, 1, "do something", "thumbnail1", false));
-        recipes.add(new Recipe("r2", "d2", "t2", 2, 2, "do something", "thumbnail2", true));
-        recipes.add(new Recipe("r3", "d3", "t3", 3, 3, "do something", "thumbnail3", false));
+        // Recipe(String name, String description, String type, int preparationTime, int cookingTime,
+        // String cookingInstructions, String thumbnail, boolean isFavorite, Set<Step> steps)
+        recipes.add(new Recipe("r1", "d1", "t1", 1, 1, "do something", "thumbnail1", false, null));
+        recipes.add(new Recipe("r2", "d2", "t2", 2, 2, "do something", "thumbnail2", true, null));
+        recipes.add(new Recipe("r3", "d3", "t3", 3, 3, "do something", "thumbnail3", false, null));
 
         when(repository.findAll()).thenReturn(recipes);
 
-        MvcResult result = this.mockMvc.perform(get("/recipes")).andExpect(status().isOk()).andReturn();
+        MvcResult result = this.mockMvc.perform(get("/api/recipes")).andExpect(status().isOk()).andReturn();
 
         // get body of HTTP result
         String content = result.getResponse().getContentAsString();

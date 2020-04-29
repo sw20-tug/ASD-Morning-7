@@ -1,6 +1,6 @@
 package at.tugraz.asdmorning7.cook.controllers.integration;
 
-import at.tugraz.asdmorning7.cook.controllers.RecipesController;
+import at.tugraz.asdmorning7.cook.controllers.RecipeController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class RecipesControllerTests {
 
     @Autowired
-    private RecipesController controller;
+    private RecipeController controller;
 
     @Test
     public void contexLoads() throws Exception {
