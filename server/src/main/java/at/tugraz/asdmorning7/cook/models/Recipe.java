@@ -1,14 +1,16 @@
 package at.tugraz.asdmorning7.cook.models;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Recipe {
@@ -20,6 +22,7 @@ public class Recipe {
     @NotNull
     private String name;
 
+    @Lob
     @NotNull
     private String description;
 
@@ -32,13 +35,15 @@ public class Recipe {
     @NotNull
     private int preparationTime;
 
+    @Lob
     @NotNull
     private String thumbnail;
 
     private boolean isFavorite;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private Set<Step> steps = new HashSet<Step>();
+    @JsonManagedReference("recipe_steps")
+    private Set<Step> steps;
 
     public Recipe() {
     }
@@ -58,6 +63,10 @@ public class Recipe {
     /*
      * Getters
      */
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -93,10 +102,6 @@ public class Recipe {
     /*
      * Setters
      */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }

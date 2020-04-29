@@ -4,8 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Step {
@@ -20,14 +23,17 @@ public class Step {
     @NotNull
     private String name;
 
+    @Lob
     @NotNull
     private String content;
 
+    @Lob
     @NotNull
     private String image;
 
     @ManyToOne
     @JoinColumn(name = "recipe_id", nullable = false)
+    @JsonBackReference("recipe_steps")
     private Recipe recipe;
 
     public Step() {
@@ -44,6 +50,10 @@ public class Step {
     /*
      * Getters
      */
+    public Long getId() {
+        return id;
+    }
+    
     public Long getNumber() {
         return number;
     }
