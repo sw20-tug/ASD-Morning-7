@@ -7,12 +7,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-const formatRecipe = () => {
-
-};
-
-const buildTableRow = (recipe) => {
-    return <TableRow key={recipe.id}>
+const buildTableRow = (recipe, index) => {
+    return <TableRow key={index}>
         <TableCell>{recipe.name}</TableCell>
         <TableCell>{recipe.preparationTime}</TableCell>
         <TableCell>{recipe.cookingTime}</TableCell>
@@ -33,7 +29,7 @@ export default function RecipesList(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.recipes.map(recipe => buildTableRow(recipe))}
+                    {props.recipes.map((recipe, index) => buildTableRow(recipe, index))}
                 </TableBody>
             </Table>
         </TableContainer>
