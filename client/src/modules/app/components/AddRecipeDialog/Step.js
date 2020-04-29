@@ -8,7 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete"
 export default function Step(props) {
 
     const setThumbnail = (thumbnail) => {
-        props.setStep(props.number - 1, 'image', thumbnail);
+        props.setStep(props.id - 1, 'image', thumbnail);
     };
 
     return (
@@ -22,18 +22,20 @@ export default function Step(props) {
                 alignItems: 'center',
                 justifyContent: 'space-between'
             }}>
-                <Typography variant="h6">Step {props.number}</Typography>
+                <Typography variant="h6">Step {props.id}</Typography>
 
-                {(props.number > 1) ? <IconButton color={'secondary'} onClick={() => props.removeStep(props.number - 1)}>
-                    <DeleteIcon/>
-                </IconButton> : null}
+                {(props.stepsCount > 1) ?
+                    <IconButton color={'secondary'} onClick={() => props.removeStep(props.number - 1)}>
+                        <DeleteIcon/>
+                    </IconButton> : null}
             </div>
 
             <TextField
                 style={{marginTop: 10, width: '100%'}}
                 label="Name"
                 variant="outlined"
-                onChange={(event) => props.setStep(props.number - 1, 'name', event.target.value)}
+                onChange={(event) => props.setStep(props.id - 1, 'name', event.target.value)}
+                value={props.name}
             />
             <TextField
                 style={{marginTop: 10, width: '100%'}}
@@ -41,7 +43,8 @@ export default function Step(props) {
                 variant="outlined"
                 multiline
                 rows="4"
-                onChange={(event) => props.setStep(props.number - 1, 'content', event.target.value)}
+                onChange={(event) => props.setStep(props.id - 1, 'content', event.target.value)}
+                value={props.content}
             />
 
             <ThumbnailUploader

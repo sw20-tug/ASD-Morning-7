@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import {TextField} from "@material-ui/core";
@@ -19,7 +18,11 @@ export default function AddRecipeDialog(props) {
         type: "",
         summary: "",
         steps: [{
-            number: 1,
+            // this will be set after
+            // before sending the
+            // finished recipe
+            // to the api
+            number: -1,
             name: "",
             content: "",
             image: ""
@@ -73,7 +76,7 @@ export default function AddRecipeDialog(props) {
 
     const removeStep = (index) => {
         const stepsClone = recipe.steps;
-        stepsClone.splice(index, 1);
+        const removed = stepsClone.splice(index, 1);
         setRecipe({...recipe, steps: stepsClone});
     };
 
@@ -102,6 +105,7 @@ export default function AddRecipeDialog(props) {
             ingredientTextFields.push(
                 <div
                     id={counter.toString()}
+                    key={counter}
                     style={{display: 'flex', alignItems: 'center', marginTop: 10}}
                 >
                     <TextField
@@ -132,7 +136,16 @@ export default function AddRecipeDialog(props) {
         const steps = [];
 
         for (let i = 0; i < recipe.steps.length; i++) {
-            steps.push(<Step key={i} {...recipe.steps[i]} setStep={setStep} removeStep={removeStep}/>);
+            steps.push(
+                <Step
+                    key={i}
+                    id={i + 1}
+                    {...recipe.steps[i]}
+                    stepsCount={recipe.steps.length}
+                    setStep={setStep}
+                    removeStep={removeStep}
+                />
+            );
         }
 
         return steps;
@@ -206,8 +219,10 @@ export default function AddRecipeDialog(props) {
 
             </DialogContent>
             <DialogActions>
-                <Button onClick={props.close}>Cancel</Button>
-                <Button variant={'contained'} color="primary">Add Recipe</Button>
+                <Button variant={'contained'} onClick={props.close}>Cancel</Button>
+                <Button variant={'contained'} onClick={() => props.addRecipe(recipe)} color="primary">
+                    Add Recipe
+                </Button>
             </DialogActions>
         </Dialog>
     );

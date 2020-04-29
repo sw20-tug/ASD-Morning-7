@@ -23,7 +23,6 @@ const generateRecipes = () => {
     // thumbnail, name, preparation- and cooking time, type of recipe
     for (let i = 1; i < 11; i++) {
         recipes.push({
-            id: i,
             name: "Pizza",
             type: "Italian dish",
             summary: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
@@ -89,12 +88,14 @@ export const addRecipe = (dispatch, recipe) => {
     dispatch({type: ADD_RECIPE});
 
     dispatch({type: ADD_RECIPE_SUCCESS, recipe});
-    /*
+
+    // number steps
+    recipe.steps.map((step, index) => recipe.steps[index].number = index + 1);
+
     axios.post('recipes', recipe).then(res => {
         dispatch({type: ADD_RECIPE_SUCCESS, recipe: res.data});
     }).catch(err => {
-        dispatch({ADD_RECIPE_FAILURE});
+        dispatch({type: ADD_RECIPE_FAILURE});
         console.log('Could not add recipe', err);
-    })
-     */
+    });
 };
