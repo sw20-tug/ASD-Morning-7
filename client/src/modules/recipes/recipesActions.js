@@ -25,7 +25,7 @@ const generateRecipes = () => {
         recipes.push({
             name: "Pizza",
             type: "Italian dish",
-            summary: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             steps: [step, step, step],
             ingredients: ["Tomatoes", "Carrots", "Rice"],
             preparationTime: 45,
