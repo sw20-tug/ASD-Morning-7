@@ -6,10 +6,16 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from "@material-ui/core/Typography";
 
 const buildTableRow = (recipe, index) => {
     return <TableRow key={index}>
-        <TableCell>{recipe.name}</TableCell>
+        <TableCell>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <img style={{height: 75, marginRight: 15, borderRadius: 5}} alt="thumbnail" src={recipe.thumbnail}/>
+                {recipe.name}
+            </div>
+        </TableCell>
         <TableCell>{recipe.preparationTime}</TableCell>
         <TableCell>{recipe.cookingTime}</TableCell>
         <TableCell>{recipe.type}</TableCell>
