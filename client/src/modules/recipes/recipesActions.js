@@ -49,7 +49,7 @@ export const fetchRecipes = (dispatch, onlyFavourites = false) => {
 
         // filter if only favourites should get displayed
         if (onlyFavourites) {
-            recipes = recipes.filter(recipe => recipe.isFavourite)
+            recipes = recipes.filter(recipe => recipe.isFavorite)
         }
 
         return dispatch({
