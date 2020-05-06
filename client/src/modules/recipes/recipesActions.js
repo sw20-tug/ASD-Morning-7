@@ -84,7 +84,8 @@ export const addRecipe = (dispatch, recipe) => {
 
     dispatch({type: ADD_RECIPE});
 
-    dispatch({type: ADD_RECIPE_SUCCESS, recipe});
+    // add recipe after server responded
+    // dispatch({type: ADD_RECIPE_SUCCESS, recipe});
 
     // number steps
     recipe.steps.map((step, index) => recipe.steps[index].number = index + 1);
