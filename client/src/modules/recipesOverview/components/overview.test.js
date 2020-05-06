@@ -3,6 +3,8 @@ import {configure, shallow} from 'enzyme';
 import mount from 'enzyme';
 
 import RecipesList from './RecipesList';
+
+
 import Adapter from 'enzyme-adapter-react-16';
 import render from 'react-test-renderer';
 
@@ -35,20 +37,18 @@ const generateRecipes = () => {
     return recipes;
 };
 
-test('table rows', () => {
-    expect(true);
+const tableContainerJson = render.create(<RecipesList recipes={generateRecipes()}/>).toJSON();
+
+test('check the table head', () => {
+    // render recipe list (table)
+    
+    const tableHead = tableContainerJson.children[0].children[0].children[0];
+    expect(tableHead.children[0].children[0]).toBe('Name');
+    expect(tableHead.children[1].children[0]).toBe('Preparation time (min)');
+    expect(tableHead.children[2].children[0]).toBe('Cooking time (min)');
+    expect(tableHead.children[3].children[0]).toBe('Type');
 });
 
-test('dummy test', () => {
-    const cols = [
-        { header: 'Name'},
-        { header: 'Preparation time (min)'},
-        { header: 'Cooking time (min)'},
-        { header: 'Type'}
-    ];
-
-    const container = render.create(<RecipesList recipes={generateRecipes()}/>);   // There should be ONLY 1 table element
-    //const table = container.find('table');
-    const containerJSON = container.toJSON();
-    console.log("container json", containerJSON.children[0]);
+test ('check if there is the correct amount of recipes inside the recipe overview table', () => {
+    expect(tableContainerJson.children[0].children[1].children.length).toBe(10);
 });
