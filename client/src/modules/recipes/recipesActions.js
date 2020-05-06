@@ -10,6 +10,7 @@ export const ADD_RECIPE = 'app/add-recipe';
 export const ADD_RECIPE_SUCCESS = 'app/add-recipe-success';
 export const ADD_RECIPE_FAILURE = 'app/add-recipe-failure';
 
+// for testing only
 const generateRecipes = () => {
     const step = {
         number: 1,
@@ -37,38 +38,34 @@ const generateRecipes = () => {
 };
 
 
-export const fetchRecipes = (dispatch) => {
+export const fetchRecipes = (dispatch, onlyFavourites = false) => {
 
     dispatch({
         type: FETCH_RECIPES
     });
 
-    dispatch({
-        type: FETCH_RECIPES_SUCCESS,
-        recipes: generateRecipes()
+    axios.get('recipes').then(res => {
+        let recipes = res.data;
+
+        // filter if only favourites should get displayed
+        if (onlyFavourites) {
+            recipes = recipes.filter(recipe => recipe.isFavourite)
+        }
+
+        return dispatch({
+            type: FETCH_RECIPES_SUCCESS,
+            recipes: recipes
+        });
+
+    }).catch(err => {
+        dispatch({type: FETCH_RECIPES_FAILURE});
+        console.log('Could not fetch ' + (onlyFavourites ? 'favourite recipes' : 'recipes'), err)
     });
 
-    /*
-    axios.get('recipes').then(res => {
-        return dispatch({
-            type: FETCH_RECIPES,
-            recipes: res.data
-        });
-    });
-     */
 };
 
 export const fetchFavourites = (dispatch) => {
-    dispatch({
-        type: FETCH_RECIPES
-    });
-
-    const allRecipes = generateRecipes();
-
-    dispatch({
-        type: FETCH_RECIPES_SUCCESS,
-        recipes: [allRecipes[0], allRecipes[1], allRecipes[2]]
-    });
+    fetchRecipes(dispatch, true)
 };
 
 export const showOnlyFavourites = (dispatch, enable) => {

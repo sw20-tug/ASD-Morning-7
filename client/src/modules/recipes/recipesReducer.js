@@ -64,7 +64,7 @@ const recipesReducer = (state = initState, action) => {
         case FETCH_RECIPES_FAILURE:
             return {
                 ...state,
-                recipes: action.recipes,
+                // dont change recipes in store
                 fetchRecipesLoading: false,
                 fetchRecipesSuccess: false,
                 fetchRecipesFailure: true
