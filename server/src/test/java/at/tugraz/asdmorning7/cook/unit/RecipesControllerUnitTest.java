@@ -1,4 +1,4 @@
-package at.tugraz.asdmorning7.cook.controllers.unit;
+package at.tugraz.asdmorning7.cook.unit;
 
 import at.tugraz.asdmorning7.cook.models.Recipe;
 import at.tugraz.asdmorning7.cook.controllers.RecipeController;
