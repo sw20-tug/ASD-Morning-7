@@ -96,7 +96,7 @@ class RecipesControllerUnitTest {
             .contentType(MediaType.APPLICATION_JSON);
 
         // Send request; Note: response is just 200 OK
-        MvcResult result = mockMvc.perform(builder).andExpect(status().isOk()) .andReturn();
+        MvcResult result = mockMvc.perform(builder).andExpect(status().isOk()).andReturn();
 
         assertEquals(asJsonString(r1), result.getResponse().getContentAsString());
 
