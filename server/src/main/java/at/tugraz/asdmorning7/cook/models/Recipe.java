@@ -39,6 +39,10 @@ public class Recipe {
     @NotNull
     private String thumbnail;
 
+    @Lob
+    @NotNull
+    private String ingredients;
+
     private boolean isFavorite;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
@@ -49,7 +53,7 @@ public class Recipe {
     }
 
     public Recipe(String name, String description, String type, int preparationTime, int cookingTime,
-            String cookingInstructions, String thumbnail, boolean isFavorite, Set<Step> steps) {
+            String cookingInstructions, String thumbnail, boolean isFavorite, String ingredients, Set<Step> steps) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -57,6 +61,7 @@ public class Recipe {
         this.cookingTime = cookingTime;
         this.thumbnail = thumbnail;
         this.isFavorite = isFavorite;
+        this.ingredients = ingredients;
         this.steps = steps;
     }
 
@@ -99,6 +104,10 @@ public class Recipe {
         return steps;
     }
 
+    public String getIngredients() {
+        return ingredients;
+    }
+
     /*
      * Setters
      */
@@ -132,5 +141,9 @@ public class Recipe {
 
     public void setSteps(Set<Step> steps) {
         this.steps = steps;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
     }
 }
