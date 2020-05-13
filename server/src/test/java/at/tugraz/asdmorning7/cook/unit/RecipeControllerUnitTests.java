@@ -49,9 +49,9 @@ class RecipesControllerUnitTest {
         List<Recipe> recipes = new ArrayList<Recipe>();
         // Recipe(String name, String description, String type, int preparationTime, int cookingTime,
         // String cookingInstructions, String thumbnail, boolean isFavorite, Set<Step> steps)
-        recipes.add(new Recipe("r1", "d1", "t1", 1, 1, "do something", "thumbnail1", false, null));
-        recipes.add(new Recipe("r2", "d2", "t2", 2, 2, "do something", "thumbnail2", true, null));
-        recipes.add(new Recipe("r3", "d3", "t3", 3, 3, "do something", "thumbnail3", false, null));
+        recipes.add(new Recipe("r1", "d1", "t1", 1, 1, "do something", "thumbnail1", false, "i1", null));
+        recipes.add(new Recipe("r2", "d2", "t2", 2, 2, "do something", "thumbnail2", true, "i1", null));
+        recipes.add(new Recipe("r3", "d3", "t3", 3, 3, "do something", "thumbnail3", false, "i1", null));
 
         when(repository.findAll()).thenReturn(recipes);
 
@@ -67,7 +67,7 @@ class RecipesControllerUnitTest {
     @Test
     public void getRecipeByIdTest() throws Exception {
         Long expectedId = 1L;
-        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
+        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, "i1", null);
 
         when(repository.findById(expectedId)).thenReturn(java.util.Optional.of(r1));
 
@@ -83,7 +83,7 @@ class RecipesControllerUnitTest {
 
     @Test
     public void insertRecipe() throws Exception {
-        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
+        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, "i1", null);
 
         // Note: it is important to mock repository.save on: 'Mockito.any(Recipe.class)'
         // Otherwise it would fail and an empty response body would be received
@@ -96,7 +96,7 @@ class RecipesControllerUnitTest {
             .contentType(MediaType.APPLICATION_JSON);
 
         // Send request; Note: response is just 200 OK
-        MvcResult result = mockMvc.perform(builder).andExpect(status().isOk()) .andReturn();
+        MvcResult result = mockMvc.perform(builder).andExpect(status().isOk()).andReturn();
 
         assertEquals(asJsonString(r1), result.getResponse().getContentAsString());
 
@@ -111,8 +111,8 @@ class RecipesControllerUnitTest {
     @Test
     public void renameRecipeTest() throws Exception {
         Long expectedId = 1L;
-        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
-        Recipe r2 = new Recipe("r2", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
+        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, "i1", null);
+        Recipe r2 = new Recipe("r2", "d1", "t1", 1, 1, "i1", "thumbnail1", false, "i1", null);
 
         when(repository.findById(expectedId)).thenReturn(java.util.Optional.of(r1));
         when(repository.save(Mockito.any(Recipe.class))).thenReturn(r2);
