@@ -11,6 +11,8 @@ import DeleteIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add'
 import Step from "./Step";
 
+let recipeToEditInit = false;
+
 export default function AddRecipeDialog(props) {
 
     const [recipe, setRecipe] = useState({
@@ -32,6 +34,13 @@ export default function AddRecipeDialog(props) {
         cookingTime: 0,
         thumbnail: ""
     });
+
+    // check if edit mode is enabled
+    if (props.recipeToEdit !== undefined && props.recipeToEdit !== null && !recipeToEditInit) {
+        console.log("HIT");
+        recipeToEditInit = true;
+        setRecipe({...props.recipeToEdit, ingredients: []})
+    }
 
     const addIngredient = (ingredient) => {
         setRecipe({...recipe, ingredients: [...recipe.ingredients, ingredient]})
@@ -167,6 +176,7 @@ export default function AddRecipeDialog(props) {
                     key="name"
                     style={{width: '100%'}}
                     label="Name"
+                    value={recipe.name}
                     variant="outlined"
                     onChange={(event) => setRecipe({...recipe, name: event.target.value})}
                 />
@@ -174,6 +184,7 @@ export default function AddRecipeDialog(props) {
                     key="category"
                     style={{marginTop: 10, width: '100%'}}
                     label="Category"
+                    value={recipe.type}
                     variant="outlined"
                     onChange={(event) => setRecipe({...recipe, type: event.target.value})}
                 />
@@ -181,6 +192,7 @@ export default function AddRecipeDialog(props) {
                     key="description"
                     style={{marginTop: 10, width: '100%'}}
                     label="Description"
+                    value={recipe.description}
                     variant="outlined"
                     multiline
                     rows="4"
@@ -191,6 +203,7 @@ export default function AddRecipeDialog(props) {
                         key="preparation-time"
                         style={{marginRight: 10, width: '45%'}}
                         label="Preparation Time"
+                        value={recipe.preparationTime}
                         variant="outlined"
                         onChange={(event) => setRecipe({...recipe, preparationTime: event.target.value})}
                     />
@@ -198,6 +211,7 @@ export default function AddRecipeDialog(props) {
                         key="cooking-time"
                         style={{width: '45%'}}
                         label="Cooking Time"
+                        value={recipe.cookingTime}
                         variant="outlined"
                         onChange={(event) => setRecipe({...recipe, cookingTime: event.target.value})}
                     />

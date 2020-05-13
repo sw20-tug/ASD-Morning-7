@@ -6,13 +6,17 @@ import RecipesOverview from "../recipesOverview/RecipesOverview";
 import Navigation from './components/Navigation';
 import {addRecipe, showOnlyFavourites} from "../recipes/recipesActions";
 import {hideAddRecipeDialog, showAddRecipeDialog} from "./appActions";
-import appReducer from "./appReducer";
 
 class App extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            recipeToEdit: null
+        }
     }
+
+    setRecipeToEdit = (recipe) => this.setState({recipeToEdit: recipe});
 
     render() {
         return (
@@ -24,11 +28,17 @@ class App extends React.Component {
                         showAddRecipeDialog={this.props.showAddRecipeDialog}
                         hideAddRecipeDialog={this.props.hideAddRecipeDialog}
                         addRecipe={this.props.addRecipe}
+                        recipeToEdit={this.state.recipeToEdit}
+                        setRecipeToEdit={this.setRecipeToEdit}
                     />
                     <Switch>
                         <Route exact path={'/'} render={(props) => {
-                            return <RecipesOverview props={props}/>
-                        }}/>
+                            return <RecipesOverview
+                                props={props}
+                                showAddRecipeDialog={this.props.showAddRecipeDialog}
+                                setRecipeToEdit={this.setRecipeToEdit}/>
+                        }}
+                        />
                         {
                             /*
     <Route exact path={'/recipes/'} render={(props) => {

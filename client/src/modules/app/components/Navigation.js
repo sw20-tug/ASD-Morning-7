@@ -21,16 +21,23 @@ class Navigation extends React.Component {
                             COOK
                         </Typography>
                         <div>
-                            <Button color="inherit" onClick={() => this.props.showOnlyFavourites(false)}>All Recipes</Button>
-                            <Button color="inherit" onClick={() => this.props.showOnlyFavourites(true)}>Favourites</Button>
+                            <Button color="inherit" onClick={() => this.props.showOnlyFavourites(false)}>All
+                                Recipes</Button>
+                            <Button color="inherit"
+                                    onClick={() => this.props.showOnlyFavourites(true)}>Favourites</Button>
                             <Button color="inherit" onClick={this.props.showAddRecipeDialog}>Add Recipe</Button>
                         </div>
                     </Toolbar>
                 </AppBar>
                 <AddRecipeDialog
                     open={this.props.addRecipeDialogVisible}
-                    close={this.props.hideAddRecipeDialog}
+                    close={() => {
+                        this.props.setRecipeToEdit(null);
+                        this.props.hideAddRecipeDialog();
+                    }}
                     addRecipe={this.props.addRecipe}
+                    recipeToEdit={this.props.recipeToEdit}
+                    setRecipeToEdit={this.props.setRecipeToEdit}
                 />
             </div>
         );

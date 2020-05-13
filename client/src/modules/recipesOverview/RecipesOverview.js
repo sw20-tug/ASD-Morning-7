@@ -31,7 +31,12 @@ class RecipesOverview extends React.Component {
         return (
             <div>
                 <Typography style={{marginTop: 50, marginBottom: 10}} variant="h4" component="h1">Recipes</Typography>
-                <RecipesList recipes={this.props.recipes} editRecipeName={this.props.editRecipeName}/>
+                <RecipesList
+                    recipes={this.props.recipes}
+                    editRecipeName={this.props.editRecipeName}
+                    showAddRecipeDialog={this.props.showAddRecipeDialog}
+                    setRecipeToEdit={this.props.setRecipeToEdit}
+                />
             </div>
         );
     }

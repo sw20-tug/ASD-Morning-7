@@ -5,6 +5,7 @@ import {TextField} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import EditNameIcon from '@material-ui/icons/Edit';
 import SaveNameIcon from '@material-ui/icons/Done';
+import EditRecipeIcon from '@material-ui/icons/MoreHoriz';
 
 export default function RecipesListRow(props) {
     const [editMode, setEditMode] = useState(false);
@@ -44,7 +45,7 @@ export default function RecipesListRow(props) {
                         />
                 }
 
-                <IconButton color={'primary'} onClick={() => getEditNameAction()}>
+                <IconButton color={'primary'} onClick={getEditNameAction}>
                     {getEditNameActionIcon()}
                 </IconButton>
 
@@ -53,5 +54,13 @@ export default function RecipesListRow(props) {
         <TableCell>{props.recipe.preparationTime}</TableCell>
         <TableCell>{props.recipe.cookingTime}</TableCell>
         <TableCell>{props.recipe.type}</TableCell>
+        <TableCell>
+            <IconButton color={'primary'} onClick={() => {
+                props.setRecipeToEdit(props.recipe);
+                props.showAddRecipeDialog();
+            }}>
+                <EditRecipeIcon/>
+            </IconButton>
+        </TableCell>
     </TableRow>;
 }
