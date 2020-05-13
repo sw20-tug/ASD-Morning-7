@@ -55,6 +55,14 @@ public class RecipeController {
         }).orElseThrow(() -> new RecipeNotFoundException(id));
     }
 
+    @PutMapping("/{id}/rename")
+    Recipe rename(@RequestBody Recipe newRecipe, @PathVariable Long id) {
+        return repository.findById(id).map(recipe -> {
+            recipe.setName(newRecipe.getName());
+            return repository.save(recipe);
+        }).orElseThrow(() -> new RecipeNotFoundException(id));
+    }
+
     @DeleteMapping("/{id}")
     void delete(@PathVariable Long id) {
         repository.deleteById(id);
