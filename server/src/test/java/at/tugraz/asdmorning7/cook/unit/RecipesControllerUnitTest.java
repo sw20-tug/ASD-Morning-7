@@ -103,8 +103,6 @@ class RecipesControllerUnitTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        // check response
-        System.out.println(res.getResponse().getContentAsString());
         assertEquals(asJsonString(r1), res.getResponse().getContentAsString());
 
         // check if save was called exactly one time
