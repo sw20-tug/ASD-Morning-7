@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchFavourites, fetchRecipes} from "../recipes/recipesActions";
+import {editRecipeName, fetchFavourites, fetchRecipes} from "../recipes/recipesActions";
 import RecipesList from "./components/RecipesList";
 import Typography from "@material-ui/core/Typography";
 
@@ -31,7 +31,7 @@ class RecipesOverview extends React.Component {
         return (
             <div>
                 <Typography style={{marginTop: 50, marginBottom: 10}} variant="h4" component="h1">Recipes</Typography>
-                <RecipesList recipes={this.props.recipes}/>
+                <RecipesList recipes={this.props.recipes} editRecipeName={this.props.editRecipeName}/>
             </div>
         );
     }
@@ -50,7 +50,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchRecipes: () => fetchRecipes(dispatch),
-        fetchFavourites: () => fetchFavourites(dispatch)
+        fetchFavourites: () => fetchFavourites(dispatch),
+        editRecipeName: (id, name) => editRecipeName(dispatch, id, name)
     };
 };
 

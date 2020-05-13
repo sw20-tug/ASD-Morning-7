@@ -6,7 +6,10 @@ import {
     SHOW_ALL,
     ADD_RECIPE,
     ADD_RECIPE_SUCCESS,
-    ADD_RECIPE_FAILURE
+    ADD_RECIPE_FAILURE,
+    EDIT_RECIPE_NAME,
+    EDIT_RECIPE_NAME_SUCCESS,
+    EDIT_RECIPE_NAME_FAILURE
 } from "./recipesActions";
 
 const initState = {
@@ -23,6 +26,12 @@ const initState = {
 
 const recipesReducer = (state = initState, action) => {
     switch (action.type) {
+        case EDIT_RECIPE_NAME:
+            return {...state};
+        case EDIT_RECIPE_NAME_SUCCESS:
+            return {...state};
+        case EDIT_RECIPE_NAME_FAILURE:
+            return {...state};
         case ADD_RECIPE:
             return {
                 ...state,
