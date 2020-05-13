@@ -55,14 +55,11 @@ class RecipesControllerUnitTest {
 
         when(repository.findAll()).thenReturn(recipes);
 
-        MvcResult result = this.mockMvc.perform(get("/api/recipes")).andExpect(status().isOk()).andReturn();
-
-        // get body of HTTP result
+        MvcResult result = mockMvc.perform(
+            get("/api/recipes")
+        ).andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
         JSONArray jsonArray = new JSONArray(content);
-
-        // print content
-        for(int i = 0; i < jsonArray.length(); i++)
 
         assertEquals(recipes.size(), jsonArray.length());
     }
@@ -74,18 +71,18 @@ class RecipesControllerUnitTest {
 
         when(repository.findById(expectedId)).thenReturn(java.util.Optional.of(r1));
 
-        MvcResult result = this.mockMvc.perform(
-                get("/api/recipes/{id}", expectedId)
+        MvcResult result = mockMvc.perform(
+            get("/api/recipes/{id}", expectedId)
         ).andExpect(status().isOk()).andReturn();
 
         String content = result.getResponse().getContentAsString();
-        JSONObject jsonArray = new JSONObject(content);
+        JSONObject jsonObject = new JSONObject(content);
 
-        assertEquals(r1.getName(), jsonArray.getString("name"));
+        assertEquals(r1.getName(), jsonObject.getString("name"));
     }
 
     @Test
-    public void insertTest() throws Exception {
+    public void insertRecipe() throws Exception {
         Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
 
         // Note: it is important to mock repository.save on: 'Mockito.any(Recipe.class)'
@@ -93,23 +90,43 @@ class RecipesControllerUnitTest {
         when(repository.save(Mockito.any(Recipe.class))).thenReturn(r1);
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
-                .post("/api/recipes")
-                .accept(MediaType.APPLICATION_JSON)
-                .content(asJsonString(r1))
-                .contentType(MediaType.APPLICATION_JSON);
+            .post("/api/recipes")
+            .accept(MediaType.APPLICATION_JSON)
+            .content(asJsonString(r1))
+            .contentType(MediaType.APPLICATION_JSON);
 
-        // send request; Note: response is just 200 OK
-        MvcResult res = mockMvc.perform(builder)
-                .andExpect(status().isOk())
-                .andReturn();
+        // Send request; Note: response is just 200 OK
+        MvcResult result = mockMvc.perform(builder).andExpect(status().isOk()).andReturn();
 
-        assertEquals(asJsonString(r1), res.getResponse().getContentAsString());
+        assertEquals(asJsonString(r1), result.getResponse().getContentAsString());
 
-        // check if save was called exactly one time
+        // Check if save was called exactly one time
         ArgumentCaptor<Recipe> recipeCaptor = ArgumentCaptor.forClass(Recipe.class);
         verify(repository, times(1)).save(recipeCaptor.capture());
 
-        assert(recipeCaptor.getValue().getName().equals(r1.getName()) &&
-                recipeCaptor.getValue().getThumbnail().equals(r1.getThumbnail()));
+        assert(recipeCaptor.getValue().getName().equals(r1.getName())
+            && recipeCaptor.getValue().getThumbnail().equals(r1.getThumbnail()));
+    }
+
+    @Test
+    public void renameRecipeTest() throws Exception {
+        Long expectedId = 1L;
+        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
+        Recipe r2 = new Recipe("r2", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
+
+        when(repository.findById(expectedId)).thenReturn(java.util.Optional.of(r1));
+        when(repository.save(Mockito.any(Recipe.class))).thenReturn(r2);
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
+            .put("/api/recipes/{id}/rename", expectedId)
+            .accept(MediaType.APPLICATION_JSON)
+            .content(asJsonString(r2))
+            .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(builder).andExpect(status().isOk()).andReturn();
+        String content = result.getResponse().getContentAsString();
+        JSONObject jsonObject = new JSONObject(content);
+
+        assertEquals(r2.getName(), jsonObject.getString("name"));
     }
 }
