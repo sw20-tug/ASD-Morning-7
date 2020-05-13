@@ -54,7 +54,5 @@ test('check if there is the correct amount of recipes inside the recipe overview
 });
 
 test('check if rename button exists', () => {
-    // 1 0
-    //.children[0].children[0].children[0].children[2].type
     tableContainerJson.children[0].children[1].children.map(row => expect(row.children[0].children[0].children[2].type).toBe('button'));
 });
