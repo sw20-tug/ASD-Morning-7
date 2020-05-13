@@ -95,7 +95,7 @@ class RecipesControllerUnitTest {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
                 .post("/api/recipes")
                 .accept(MediaType.APPLICATION_JSON)
-                .content(asJsonString(r1))                  // send content as JSON string
+                .content(asJsonString(r1))
                 .contentType(MediaType.APPLICATION_JSON);
 
         // send request; Note: response is just 200 OK
