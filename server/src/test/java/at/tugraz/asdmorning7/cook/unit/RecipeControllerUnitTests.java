@@ -129,4 +129,30 @@ class RecipesControllerUnitTest {
 
         assertEquals(r2.getName(), jsonObject.getString("name"));
     }
+
+    @Test
+    public void deleteTest() throws Exception {
+        Long expected_id = 1L;
+        Long error_id = 2L;
+        doNothing().when(repository).deleteById(expected_id);
+        doThrow(new IllegalArgumentException()).when(repository).deleteById(error_id);
+
+        //Correct delete
+        this.mockMvc.perform(
+                delete("/api/recipes/{id}", expected_id)
+        ).andExpect(status().isOk());
+
+        //Delete with non existent id
+        try {
+            this.mockMvc.perform(
+                    delete("/api/recipes/{id}", error_id)
+            ).andExpect(status().isOk());
+        }
+        catch (Exception e) {
+            assert(e.getMessage().contains("java.lang.IllegalArgumentException"));
+        }
+
+        verify(repository, times(1)).deleteById(expected_id);
+        verify(repository, times(1)).deleteById(error_id);
+    }
 }
