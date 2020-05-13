@@ -25,6 +25,6 @@ test('check navigation menu item names', () => {
 });
 
 test('check if the amount of items in navigation menu', () => {
-    expect(navigationItems.children.length).toBe(2);
+    expect(navigationItems.children.length).toBe(3);
     // todo: update to 3 when on most recent version
 })

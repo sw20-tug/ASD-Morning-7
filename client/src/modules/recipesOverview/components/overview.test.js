@@ -8,7 +8,7 @@ import RecipesList from './RecipesList';
 import Adapter from 'enzyme-adapter-react-16';
 import render from 'react-test-renderer';
 
-configure({ adapter: new Adapter() });
+configure({adapter: new Adapter()});
 
 
 const generateRecipes = () => {
@@ -41,7 +41,7 @@ const tableContainerJson = render.create(<RecipesList recipes={generateRecipes()
 
 test('check the table head', () => {
     // render recipe list (table)
-    
+
     const tableHead = tableContainerJson.children[0].children[0].children[0];
     expect(tableHead.children[0].children[0]).toBe('Name');
     expect(tableHead.children[1].children[0]).toBe('Preparation time (min)');
@@ -49,6 +49,12 @@ test('check the table head', () => {
     expect(tableHead.children[3].children[0]).toBe('Type');
 });
 
-test ('check if there is the correct amount of recipes inside the recipe overview table', () => {
+test('check if there is the correct amount of recipes inside the recipe overview table', () => {
     expect(tableContainerJson.children[0].children[1].children.length).toBe(10);
+});
+
+test('check if rename button exists', () => {
+    // 1 0
+    //.children[0].children[0].children[0].children[2].type
+    tableContainerJson.children[0].children[1].children.map(row => expect(row.children[0].children[0].children[2].type).toBe('button'));
 });
