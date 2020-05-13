@@ -63,7 +63,6 @@ class RecipesControllerUnitTest {
 
         // print content
         for(int i = 0; i < jsonArray.length(); i++)
-            System.out.println(jsonArray.get(i));
 
         assertEquals(recipes.size(), jsonArray.length());
     }
