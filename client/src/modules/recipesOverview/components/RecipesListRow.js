@@ -36,7 +36,10 @@ export default function RecipesListRow(props) {
             <EditRecipeIcon color={'primary'} style={{marginRight: 10}}/> Edit
         </MenuItem>
 
-        <MenuItem>
+        <MenuItem onClick={() => {
+            props.deleteRecipe(props.recipe);
+            setContextMenuAnchorElement(null);
+        }}>
             <DeleteRecipeIcon color={'secondary'} style={{marginRight: 10}}/> Delete
         </MenuItem>
     </Menu>;

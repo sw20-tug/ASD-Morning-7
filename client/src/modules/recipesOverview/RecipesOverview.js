@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {editRecipeName, fetchFavourites, fetchRecipes} from "../recipes/recipesActions";
+import {deleteRecipe, editRecipeName, fetchFavourites, fetchRecipes} from "../recipes/recipesActions";
 import RecipesList from "./components/RecipesList";
 import Typography from "@material-ui/core/Typography";
 
@@ -36,6 +36,7 @@ class RecipesOverview extends React.Component {
                     editRecipeName={this.props.editRecipeName}
                     showAddRecipeDialog={this.props.showAddRecipeDialog}
                     setRecipeToEdit={this.props.setRecipeToEdit}
+                    deleteRecipe={this.props.deleteRecipe}
                 />
             </div>
         );
@@ -56,7 +57,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchRecipes: () => fetchRecipes(dispatch),
         fetchFavourites: () => fetchFavourites(dispatch),
-        editRecipeName: (recipe, newName) => editRecipeName(dispatch, recipe, newName)
+        editRecipeName: (recipe, newName) => editRecipeName(dispatch, recipe, newName),
+        deleteRecipe: (recipe) => deleteRecipe(dispatch, recipe)
     };
 };
 

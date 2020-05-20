@@ -33,6 +33,7 @@ export default function RecipesList(props) {
                             editRecipeName={props.editRecipeName}
                             showAddRecipeDialog={props.showAddRecipeDialog}
                             setRecipeToEdit={props.setRecipeToEdit}
+                            deleteRecipe={props.deleteRecipe}
                         />
                     )}
                 </TableBody>
