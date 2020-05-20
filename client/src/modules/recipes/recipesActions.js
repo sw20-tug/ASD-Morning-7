@@ -23,10 +23,10 @@ export const DELETE_RECIPE = 'recipes/delete-recipe';
 export const DELETE_RECIPE_SUCCESS = 'recipes/delete-recipe-success';
 export const DELETE_RECIPE_FAILURE = 'recipes/delete-recipe-failure';
 
-export const editRecipeName = (dispatch, id, name) => {
+export const editRecipeName = (dispatch, recipe, newName) => {
     dispatch({type: EDIT_RECIPE_NAME});
 
-    axios.put('recipes/' + id + '/rename', {name}).then(res => {
+    axios.put('recipes/' + recipe.id + '/rename', {"name": newName}).then(res => {
         dispatch({type: EDIT_RECIPE_NAME_SUCCESS, recipe: prepareRecipeForClient(res.data)});
     }).catch(err => {
         dispatch({type: EDIT_RECIPE_NAME_FAILURE});
