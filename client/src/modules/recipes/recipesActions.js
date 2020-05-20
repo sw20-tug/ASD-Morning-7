@@ -23,7 +23,7 @@ export const editRecipeName = (dispatch, id, name) => {
     dispatch({type: EDIT_RECIPE_NAME});
 
     axios.put('recipes/' + id + '/rename', {name}).then(res => {
-        dispatch({type: EDIT_RECIPE_NAME_SUCCESS, name: res.data});
+        dispatch({type: EDIT_RECIPE_NAME_SUCCESS, recipe: prepareRecipeForClient(res.data)});
     }).catch(err => {
         dispatch({type: EDIT_RECIPE_NAME_FAILURE});
         console.log('Could not edit recipe name.', err);
@@ -37,7 +37,7 @@ export const fetchRecipes = (dispatch, onlyFavourites = false) => {
     });
 
     axios.get('recipes').then(res => {
-        let recipes = res.data;
+        let recipes = res.data.map(recipe => prepareRecipeForClient(recipe));
 
         // filter if only favourites should get displayed
         if (onlyFavourites) {
@@ -72,14 +72,23 @@ export const showOnlyFavourites = (dispatch, enable) => {
     fetchRecipes(dispatch);
 };
 
-const prepareRecipeForApi = (recipe) => {
-    // use a ','?
-    recipe.ingredients = recipe.ingredients.join(',');
+const prepareRecipeForServer = (recipe) => {
+    if (!recipe.hasOwnProperty('ingredients')) {
+        console.log("Cannot send a recipe without ingredients properties to the server", recipe);
+        return;
+    }
+
+    recipe.ingredients = recipe.ingredients.join(';');
     return recipe;
 };
 
 const prepareRecipeForClient = (recipe) => {
-    recipe.ingredients = recipe.ingredients.split(',');
+    if (!recipe.hasOwnProperty('ingredients')) {
+        console.log("Error: Recipe received from server has no ingredients", recipe);
+        return;
+    }
+
+    recipe.ingredients = recipe.ingredients.split(';');
     return recipe;
 };
 
@@ -93,8 +102,8 @@ export const addRecipe = (dispatch, recipe) => {
     // number steps
     recipe.steps.map((step, index) => recipe.steps[index].number = index + 1);
 
-    axios.post('recipes', recipe).then(res => {
-        dispatch({type: ADD_RECIPE_SUCCESS, recipe: res.data});
+    axios.post('recipes', prepareRecipeForServer(recipe)).then(res => {
+        dispatch({type: ADD_RECIPE_SUCCESS, recipe: prepareRecipeForClient(res.data)});
         hideAddRecipeDialog(dispatch);
     }).catch(err => {
         dispatch({type: ADD_RECIPE_FAILURE});
@@ -110,8 +119,8 @@ export const updateRecipe = (dispatch, recipe) => {
         return;
     }
 
-    axios.put('recipes/' + recipe.id, recipe).then(res => {
-        dispatch({type: UPDATE_RECIPE_SUCCESS, recipe: res.data});
+    axios.put('recipes/' + recipe.id, prepareRecipeForServer(recipe)).then(res => {
+        dispatch({type: UPDATE_RECIPE_SUCCESS, recipe: prepareRecipeForClient(res.data)});
         hideAddRecipeDialog(dispatch);
     }).catch(err => {
         dispatch({type: UPDATE_RECIPE_FAILURE});

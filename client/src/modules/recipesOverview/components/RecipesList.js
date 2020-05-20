@@ -22,7 +22,7 @@ export default function RecipesList(props) {
                         <TableCell>Preparation time (min)</TableCell>
                         <TableCell>Cooking time (min)</TableCell>
                         <TableCell>Type</TableCell>
-                        <TableCell>Edit</TableCell>
+                        <TableCell>Settings</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

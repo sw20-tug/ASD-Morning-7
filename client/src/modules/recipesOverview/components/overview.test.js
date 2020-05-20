@@ -53,6 +53,8 @@ test('check if there is the correct amount of recipes inside the recipe overview
     expect(tableContainerJson.children[0].children[1].children.length).toBe(10);
 });
 
+/* disabled since context menu includes it now
 test('check if rename button exists', () => {
     tableContainerJson.children[0].children[1].children.map(row => expect(row.children[0].children[0].children[2].type).toBe('button'));
 });
+ */

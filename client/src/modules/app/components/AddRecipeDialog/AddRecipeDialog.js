@@ -193,7 +193,7 @@ export default function AddRecipeDialog(props) {
 
     const buildApplyButtonAction = () => recipe.hasOwnProperty('id') ? props.updateRecipe(recipe) : props.addRecipe(recipe);
 
-    const buildApplyButtonLabel = () => recipe.hasOwnProperty('id') ? ' Safe Recipe' : 'Add Recipe';
+    const buildApplyButtonLabel = () => recipe.hasOwnProperty('id') ? 'Update Recipe' : 'Add Recipe';
 
     return (
         <Dialog

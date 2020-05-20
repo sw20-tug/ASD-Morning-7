@@ -27,11 +27,12 @@ const initState = {
 };
 
 const recipesReducer = (state = initState, action) => {
+    let recipesClone = null;
     switch (action.type) {
         case UPDATE_RECIPE:
             return {...state};
         case UPDATE_RECIPE_SUCCESS:
-            const recipesClone = [...state.recipes];
+            recipesClone = [...state.recipes];
             recipesClone.map((recipe, index) => {
                 if (recipe.hasOwnProperty('id') && recipe.id === action.recipe.id) {
                     recipesClone[index] = action.recipe;
@@ -46,7 +47,16 @@ const recipesReducer = (state = initState, action) => {
         case EDIT_RECIPE_NAME:
             return {...state};
         case EDIT_RECIPE_NAME_SUCCESS:
-            return {...state};
+            recipesClone = [...state.recipes];
+            recipesClone.map((recipe, index) => {
+                if (recipe.hasOwnProperty('id') && recipe.id === action.recipe.id) {
+                    recipesClone[index] = action.recipe;
+                }
+            });
+            return {
+                ...state,
+                recipes: recipesClone
+            };
         case EDIT_RECIPE_NAME_FAILURE:
             return {...state};
         case ADD_RECIPE:

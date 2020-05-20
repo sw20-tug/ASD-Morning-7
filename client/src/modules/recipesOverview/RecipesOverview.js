@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchRecipes: () => fetchRecipes(dispatch),
         fetchFavourites: () => fetchFavourites(dispatch),
-        editRecipeName: (id, name) => editRecipeName(dispatch, id, name)
+        editRecipeName: (recipe, newName) => editRecipeName(dispatch, recipe, newName)
     };
 };
 
