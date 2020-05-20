@@ -31,7 +31,12 @@ class RecipesOverview extends React.Component {
         return (
             <div>
                 <Typography style={{marginTop: 50, marginBottom: 10}} variant="h4" component="h1">Recipes</Typography>
-                <RecipesList recipes={this.props.recipes} editRecipeName={this.props.editRecipeName}/>
+                <RecipesList
+                    recipes={this.props.recipes}
+                    editRecipeName={this.props.editRecipeName}
+                    showAddRecipeDialog={this.props.showAddRecipeDialog}
+                    setRecipeToEdit={this.props.setRecipeToEdit}
+                />
             </div>
         );
     }
@@ -51,7 +56,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchRecipes: () => fetchRecipes(dispatch),
         fetchFavourites: () => fetchFavourites(dispatch),
-        editRecipeName: (id, name) => editRecipeName(dispatch, id, name)
+        editRecipeName: (recipe, newName) => editRecipeName(dispatch, recipe, newName)
     };
 };
 

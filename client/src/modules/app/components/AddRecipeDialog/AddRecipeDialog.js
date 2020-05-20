@@ -11,7 +11,31 @@ import DeleteIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add'
 import Step from "./Step";
 
+// let recipeToEditInit = false;
+
 export default function AddRecipeDialog(props) {
+
+    const [oldRecipeInit, setOldRecipeInit] = useState(null);
+
+    const initRecipe = {
+        name: "",
+        type: "",
+        description: "",
+        steps: [{
+            // this will be set after
+            // before sending the
+            // finished recipe
+            // to the api
+            number: -1,
+            name: "",
+            content: "",
+            image: ""
+        }],
+        ingredients: [""],
+        preparationTime: 0,
+        cookingTime: 0,
+        thumbnail: ""
+    };
 
     const [recipe, setRecipe] = useState({
         name: "",
@@ -32,6 +56,21 @@ export default function AddRecipeDialog(props) {
         cookingTime: 0,
         thumbnail: ""
     });
+
+    // reset recipe to edit
+    if (props.recipeToEdit === undefined || props.recipeToEdit === null) {
+
+        if (oldRecipeInit !== null && oldRecipeInit !== props.recipeToEdit) {
+            setOldRecipeInit(null);
+            setRecipe(initRecipe);
+        }
+
+        // set recipe to edit
+    } else if (oldRecipeInit === null || oldRecipeInit !== props.recipeToEdit) {
+        setOldRecipeInit(props.recipeToEdit);
+        setRecipe({...props.recipeToEdit, ingredients: []})
+
+    }
 
     const addIngredient = (ingredient) => {
         setRecipe({...recipe, ingredients: [...recipe.ingredients, ingredient]})
@@ -151,22 +190,23 @@ export default function AddRecipeDialog(props) {
         return steps;
     };
 
+    const buildApplyButtonAction = () => recipe.hasOwnProperty('id') ? props.updateRecipe(recipe) : props.addRecipe(recipe);
+
+    const buildApplyButtonLabel = () => recipe.hasOwnProperty('id') ? 'Update Recipe' : 'Add Recipe';
+
     return (
         <Dialog
             open={props.open}
             onClose={props.close}
             maxWidth='sm'
         >
-            <DialogTitle>Add a new recipe</DialogTitle>
+            <DialogTitle>{recipe.hasOwnProperty('id') ? 'Update recipe' : 'Add a new recipe'}</DialogTitle>
             <DialogContent>
-                {/*
-                <DialogContentText>test texttest texttest texttest texttest texttest texttest texttest texttest texttest
-                    texttest texttest texttest texttest texttest text</DialogContentText>
-                */}
                 <TextField
                     key="name"
                     style={{width: '100%'}}
                     label="Name"
+                    value={recipe.name}
                     variant="outlined"
                     onChange={(event) => setRecipe({...recipe, name: event.target.value})}
                 />
@@ -174,6 +214,7 @@ export default function AddRecipeDialog(props) {
                     key="category"
                     style={{marginTop: 10, width: '100%'}}
                     label="Category"
+                    value={recipe.type}
                     variant="outlined"
                     onChange={(event) => setRecipe({...recipe, type: event.target.value})}
                 />
@@ -181,6 +222,7 @@ export default function AddRecipeDialog(props) {
                     key="description"
                     style={{marginTop: 10, width: '100%'}}
                     label="Description"
+                    value={recipe.description}
                     variant="outlined"
                     multiline
                     rows="4"
@@ -191,6 +233,7 @@ export default function AddRecipeDialog(props) {
                         key="preparation-time"
                         style={{marginRight: 10, width: '45%'}}
                         label="Preparation Time"
+                        value={recipe.preparationTime}
                         variant="outlined"
                         onChange={(event) => setRecipe({...recipe, preparationTime: event.target.value})}
                     />
@@ -198,6 +241,7 @@ export default function AddRecipeDialog(props) {
                         key="cooking-time"
                         style={{width: '45%'}}
                         label="Cooking Time"
+                        value={recipe.cookingTime}
                         variant="outlined"
                         onChange={(event) => setRecipe({...recipe, cookingTime: event.target.value})}
                     />
@@ -220,8 +264,8 @@ export default function AddRecipeDialog(props) {
             </DialogContent>
             <DialogActions>
                 <Button variant={'contained'} onClick={props.close}>Cancel</Button>
-                <Button variant={'contained'} onClick={() => props.addRecipe(recipe)} color="primary">
-                    Add Recipe
+                <Button variant={'contained'} onClick={buildApplyButtonAction} color="primary">
+                    {buildApplyButtonLabel()}
                 </Button>
             </DialogActions>
         </Dialog>

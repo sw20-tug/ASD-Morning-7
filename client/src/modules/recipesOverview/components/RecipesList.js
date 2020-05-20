@@ -22,12 +22,19 @@ export default function RecipesList(props) {
                         <TableCell>Preparation time (min)</TableCell>
                         <TableCell>Cooking time (min)</TableCell>
                         <TableCell>Type</TableCell>
+                        <TableCell>Settings</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.recipes.map((recipe, index) => <RecipesListRow index={index}
-                                                                          recipe={recipe}
-                                                                          editRecipeName={props.editRecipeName}/>)}
+                    {props.recipes.map((recipe, index) => <RecipesListRow
+                            key={index}
+                            index={index}
+                            recipe={recipe}
+                            editRecipeName={props.editRecipeName}
+                            showAddRecipeDialog={props.showAddRecipeDialog}
+                            setRecipeToEdit={props.setRecipeToEdit}
+                        />
+                    )}
                 </TableBody>
             </Table>
         </TableContainer>);
