@@ -67,7 +67,6 @@ export default function AddRecipeDialog(props) {
 
         // set recipe to edit
     } else if (oldRecipeInit === null || oldRecipeInit !== props.recipeToEdit) {
-
         setOldRecipeInit(props.recipeToEdit);
         setRecipe({...props.recipeToEdit, ingredients: []})
 
@@ -201,12 +200,8 @@ export default function AddRecipeDialog(props) {
             onClose={props.close}
             maxWidth='sm'
         >
-            <DialogTitle>Add a new recipe</DialogTitle>
+            <DialogTitle>{recipe.hasOwnProperty('id') ? 'Update recipe' : 'Add a new recipe'}</DialogTitle>
             <DialogContent>
-                {/*
-                <DialogContentText>test texttest texttest texttest texttest texttest texttest texttest texttest texttest
-                    texttest texttest texttest texttest texttest text</DialogContentText>
-                */}
                 <TextField
                     key="name"
                     style={{width: '100%'}}

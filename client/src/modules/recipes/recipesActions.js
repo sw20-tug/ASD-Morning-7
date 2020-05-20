@@ -85,10 +85,13 @@ const prepareRecipeForServer = (recipe) => {
 const prepareRecipeForClient = (recipe) => {
     if (!recipe.hasOwnProperty('ingredients')) {
         console.log("Error: Recipe received from server has no ingredients", recipe);
-        return;
+        // TODO: fix this!
+        recipe.ingredients = "cat;cat1;cat2";
+        // return;
     }
 
     recipe.ingredients = recipe.ingredients.split(';');
+    console.log(recipe.ingredients);
     return recipe;
 };
 
