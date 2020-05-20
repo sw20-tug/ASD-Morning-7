@@ -19,6 +19,10 @@ export const UPDATE_RECIPE = 'recipes/update-recipe';
 export const UPDATE_RECIPE_SUCCESS = 'recipes/update-recipe-success';
 export const UPDATE_RECIPE_FAILURE = 'recipes/update-recipe-failure';
 
+export const DELETE_RECIPE = 'recipes/delete-recipe';
+export const DELETE_RECIPE_SUCCESS = 'recipes/delete-recipe-success';
+export const DELETE_RECIPE_FAILURE = 'recipes/delete-recipe-failure';
+
 export const editRecipeName = (dispatch, id, name) => {
     dispatch({type: EDIT_RECIPE_NAME});
 
@@ -128,5 +132,21 @@ export const updateRecipe = (dispatch, recipe) => {
     }).catch(err => {
         dispatch({type: UPDATE_RECIPE_FAILURE});
         console.log('Could not edit recipe', err);
+    });
+};
+
+export const deleteRecipe = (dispatch, recipe) => {
+    dispatch({type: DELETE_RECIPE});
+
+    if (!recipe.hasOwnProperty('id')) {
+        console.log('Could not delete recipe: object has no id');
+        return;
+    }
+
+    axios.delete('recipes/' + recipe.id).then(res => {
+        dispatch({type: DELETE_RECIPE_SUCCESS, recipe});
+    }).catch(err => {
+        dispatch({type: DELETE_RECIPE_FAILURE});
+        console.log('Could not delete recipe', err);
     });
 };

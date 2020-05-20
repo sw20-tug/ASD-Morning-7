@@ -12,7 +12,10 @@ import {
     EDIT_RECIPE_NAME_FAILURE,
     UPDATE_RECIPE,
     UPDATE_RECIPE_SUCCESS, 
-    UPDATE_RECIPE_FAILURE
+    UPDATE_RECIPE_FAILURE, 
+    DELETE_RECIPE, 
+    DELETE_RECIPE_SUCCESS, 
+    DELETE_RECIPE_FAILURE
 } from "./recipesActions";
 
 const initState = {
@@ -59,6 +62,15 @@ const recipesReducer = (state = initState, action) => {
                 recipes: recipesClone
             };
         case EDIT_RECIPE_NAME_FAILURE:
+            return {...state};
+        case DELETE_RECIPE:
+            return {...state};
+        case DELETE_RECIPE_SUCCESS:
+            return {
+                ...state,
+                recipes: [...state.recipes].filter((recipe) => recipe.id !== action.recipe.id)
+            };
+        case DELETE_RECIPE_FAILURE:
             return {...state};
         case ADD_RECIPE:
             return {
