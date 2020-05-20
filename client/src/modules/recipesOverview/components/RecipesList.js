@@ -26,11 +26,13 @@ export default function RecipesList(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.recipes.map((recipe, index) => <RecipesListRow index={index}
-                                                                          recipe={recipe}
-                                                                          editRecipeName={props.editRecipeName}
-                                                                          showAddRecipeDialog={props.showAddRecipeDialog}
-                                                                          setRecipeToEdit={props.setRecipeToEdit}
+                    {props.recipes.map((recipe, index) => <RecipesListRow
+                            key={index}
+                            index={index}
+                            recipe={recipe}
+                            editRecipeName={props.editRecipeName}
+                            showAddRecipeDialog={props.showAddRecipeDialog}
+                            setRecipeToEdit={props.setRecipeToEdit}
                         />
                     )}
                 </TableBody>

@@ -11,9 +11,31 @@ import DeleteIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add'
 import Step from "./Step";
 
-let recipeToEditInit = false;
+// let recipeToEditInit = false;
 
 export default function AddRecipeDialog(props) {
+
+    const [oldRecipeInit, setOldRecipeInit] = useState(null);
+
+    const initRecipe = {
+        name: "",
+        type: "",
+        description: "",
+        steps: [{
+            // this will be set after
+            // before sending the
+            // finished recipe
+            // to the api
+            number: -1,
+            name: "",
+            content: "",
+            image: ""
+        }],
+        ingredients: [""],
+        preparationTime: 0,
+        cookingTime: 0,
+        thumbnail: ""
+    };
 
     const [recipe, setRecipe] = useState({
         name: "",
@@ -35,11 +57,20 @@ export default function AddRecipeDialog(props) {
         thumbnail: ""
     });
 
-    // check if edit mode is enabled
-    if (props.recipeToEdit !== undefined && props.recipeToEdit !== null && !recipeToEditInit) {
-        console.log("HIT");
-        recipeToEditInit = true;
+    // reset recipe to edit
+    if (props.recipeToEdit === undefined || props.recipeToEdit === null) {
+
+        if (oldRecipeInit !== null && oldRecipeInit !== props.recipeToEdit) {
+            setOldRecipeInit(null);
+            setRecipe(initRecipe);
+        }
+
+        // set recipe to edit
+    } else if (oldRecipeInit === null || oldRecipeInit !== props.recipeToEdit) {
+
+        setOldRecipeInit(props.recipeToEdit);
         setRecipe({...props.recipeToEdit, ingredients: []})
+
     }
 
     const addIngredient = (ingredient) => {
@@ -160,6 +191,10 @@ export default function AddRecipeDialog(props) {
         return steps;
     };
 
+    const buildApplyButtonAction = () => recipe.hasOwnProperty('id') ? props.updateRecipe(recipe) : props.addRecipe(recipe);
+
+    const buildApplyButtonLabel = () => recipe.hasOwnProperty('id') ? ' Safe Recipe' : 'Add Recipe';
+
     return (
         <Dialog
             open={props.open}
@@ -234,8 +269,8 @@ export default function AddRecipeDialog(props) {
             </DialogContent>
             <DialogActions>
                 <Button variant={'contained'} onClick={props.close}>Cancel</Button>
-                <Button variant={'contained'} onClick={() => props.addRecipe(recipe)} color="primary">
-                    Add Recipe
+                <Button variant={'contained'} onClick={buildApplyButtonAction} color="primary">
+                    {buildApplyButtonLabel()}
                 </Button>
             </DialogActions>
         </Dialog>

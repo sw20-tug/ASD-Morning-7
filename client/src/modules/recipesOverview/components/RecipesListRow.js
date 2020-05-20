@@ -5,7 +5,7 @@ import {TextField} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import EditNameIcon from '@material-ui/icons/Edit';
 import SaveNameIcon from '@material-ui/icons/Done';
-import EditRecipeIcon from '@material-ui/icons/MoreHoriz';
+import EditRecipeIcon from '@material-ui/icons/Settings';
 
 export default function RecipesListRow(props) {
     const [editMode, setEditMode] = useState(false);

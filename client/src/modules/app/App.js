@@ -4,7 +4,7 @@ import {Route, Switch} from "react-router";
 import {HashRouter, Link} from "react-router-dom";
 import RecipesOverview from "../recipesOverview/RecipesOverview";
 import Navigation from './components/Navigation';
-import {addRecipe, showOnlyFavourites} from "../recipes/recipesActions";
+import {addRecipe, showOnlyFavourites, updateRecipe} from "../recipes/recipesActions";
 import {hideAddRecipeDialog, showAddRecipeDialog} from "./appActions";
 
 class App extends React.Component {
@@ -30,6 +30,7 @@ class App extends React.Component {
                         addRecipe={this.props.addRecipe}
                         recipeToEdit={this.state.recipeToEdit}
                         setRecipeToEdit={this.setRecipeToEdit}
+                        updateRecipe={this.props.updateRecipe}
                     />
                     <Switch>
                         <Route exact path={'/'} render={(props) => {
@@ -65,7 +66,8 @@ const mapDispatchToProps = (dispatch) => {
         showOnlyFavourites: (enable) => showOnlyFavourites(dispatch, enable),
         showAddRecipeDialog: () => showAddRecipeDialog(dispatch),
         hideAddRecipeDialog: () => hideAddRecipeDialog(dispatch),
-        addRecipe: (recipe) => addRecipe(dispatch, recipe)
+        addRecipe: (recipe) => addRecipe(dispatch, recipe),
+        updateRecipe: (recipe) => updateRecipe(dispatch, recipe)
     };
 };
 

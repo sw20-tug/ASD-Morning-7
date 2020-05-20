@@ -15,6 +15,10 @@ export const EDIT_RECIPE_NAME = 'recipes/edit-recipe-name';
 export const EDIT_RECIPE_NAME_SUCCESS = 'recipes/edit-recipe-name-success';
 export const EDIT_RECIPE_NAME_FAILURE = 'recipes/edit-recipe-name-failure';
 
+export const UPDATE_RECIPE = 'recipes/update-recipe';
+export const UPDATE_RECIPE_SUCCESS = 'recipes/update-recipe-success';
+export const UPDATE_RECIPE_FAILURE = 'recipes/update-recipe-failure';
+
 export const editRecipeName = (dispatch, id, name) => {
     dispatch({type: EDIT_RECIPE_NAME});
 
@@ -68,6 +72,17 @@ export const showOnlyFavourites = (dispatch, enable) => {
     fetchRecipes(dispatch);
 };
 
+const prepareRecipeForApi = (recipe) => {
+    // use a ','?
+    recipe.ingredients = recipe.ingredients.join(',');
+    return recipe;
+};
+
+const prepareRecipeForClient = (recipe) => {
+    recipe.ingredients = recipe.ingredients.split(',');
+    return recipe;
+};
+
 export const addRecipe = (dispatch, recipe) => {
 
     dispatch({type: ADD_RECIPE});
@@ -84,5 +99,22 @@ export const addRecipe = (dispatch, recipe) => {
     }).catch(err => {
         dispatch({type: ADD_RECIPE_FAILURE});
         console.log('Could not add recipe', err);
+    });
+};
+
+export const updateRecipe = (dispatch, recipe) => {
+    dispatch({type: UPDATE_RECIPE});
+
+    if (!recipe.hasOwnProperty('id')) {
+        console.log('Could not update recipe: object has no id');
+        return;
+    }
+
+    axios.put('recipes/' + recipe.id, recipe).then(res => {
+        dispatch({type: UPDATE_RECIPE_SUCCESS, recipe: res.data});
+        hideAddRecipeDialog(dispatch);
+    }).catch(err => {
+        dispatch({type: UPDATE_RECIPE_FAILURE});
+        console.log('Could not edit recipe', err);
     });
 };

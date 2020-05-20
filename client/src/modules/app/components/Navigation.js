@@ -36,6 +36,7 @@ class Navigation extends React.Component {
                         this.props.hideAddRecipeDialog();
                     }}
                     addRecipe={this.props.addRecipe}
+                    updateRecipe={this.props.updateRecipe}
                     recipeToEdit={this.props.recipeToEdit}
                     setRecipeToEdit={this.props.setRecipeToEdit}
                 />

@@ -6,7 +6,12 @@ import {
     SHOW_ALL,
     ADD_RECIPE,
     ADD_RECIPE_SUCCESS,
-    ADD_RECIPE_FAILURE, EDIT_RECIPE_NAME, EDIT_RECIPE_NAME_SUCCESS, EDIT_RECIPE_NAME_FAILURE
+    ADD_RECIPE_FAILURE,
+    EDIT_RECIPE_NAME,
+    EDIT_RECIPE_NAME_SUCCESS,
+    EDIT_RECIPE_NAME_FAILURE,
+    UPDATE_RECIPE,
+    UPDATE_RECIPE_SUCCESS, UPDATE_RECIPE_FAILURE
 } from "./recipesActions";
 
 const initState = {
@@ -23,6 +28,21 @@ const initState = {
 
 const recipesReducer = (state = initState, action) => {
     switch (action.type) {
+        case UPDATE_RECIPE:
+            return {...state};
+        case UPDATE_RECIPE_SUCCESS:
+            const recipesClone = [...state.recipes];
+            recipesClone.map((recipe, index) => {
+                if (recipe.hasOwnProperty('id') && recipe.id === action.recipe.id) {
+                    recipesClone[index] = action.recipe;
+                }
+            });
+            return {
+                ...state,
+                recipes: recipesClone
+            };
+        case UPDATE_RECIPE_FAILURE:
+            return {...state};
         case EDIT_RECIPE_NAME:
             return {...state};
         case EDIT_RECIPE_NAME_SUCCESS:
