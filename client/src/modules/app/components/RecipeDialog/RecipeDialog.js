@@ -10,10 +10,11 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add'
 import Step from "./Step";
+import {prepareRecipeForClient} from "../../../recipes/recipesActions";
 
 // let recipeToEditInit = false;
 
-export default function AddRecipeDialog(props) {
+export default function RecipeDialog(props) {
 
     const [oldRecipeInit, setOldRecipeInit] = useState(null);
 
@@ -68,7 +69,7 @@ export default function AddRecipeDialog(props) {
         // set recipe to edit
     } else if (oldRecipeInit === null || oldRecipeInit !== props.recipeToEdit) {
         setOldRecipeInit(props.recipeToEdit);
-        setRecipe({...props.recipeToEdit, ingredients: []})
+        setRecipe({...props.recipeToEdit})
 
     }
 
@@ -139,6 +140,10 @@ export default function AddRecipeDialog(props) {
 
     const buildIngredientTextFields = () => {
         const ingredientTextFields = [];
+        if (!Array.isArray(recipe.ingredients)) {
+            // todo: find out why this is necessary
+            prepareRecipeForClient(recipe);
+        }
         for (let counter = 0; counter < recipe.ingredients.length; counter++) {
             let buttonProperties = buildButtonProperties(counter);
             ingredientTextFields.push(
@@ -173,13 +178,12 @@ export default function AddRecipeDialog(props) {
 
     const generateSteps = () => {
         const steps = [];
-
-        for (let i = 0; i < recipe.steps.length; i++) {
+        for (let i = 1; i <= recipe.steps.length; i++) {
             steps.push(
                 <Step
+                    step={{...recipe.steps[i - 1]}}
                     key={i}
-                    id={i + 1}
-                    {...recipe.steps[i]}
+                    number={recipe.steps[i - 1].number === -1 ? 1 : recipe.steps[i - 1].number}
                     stepsCount={recipe.steps.length}
                     setStep={setStep}
                     removeStep={removeStep}

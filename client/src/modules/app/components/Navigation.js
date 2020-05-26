@@ -4,7 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import AddRecipeDialog from "./AddRecipeDialog/AddRecipeDialog";
+import RecipeDialog from "./RecipeDialog/RecipeDialog";
 
 class Navigation extends React.Component {
 
@@ -29,7 +29,7 @@ class Navigation extends React.Component {
                         </div>
                     </Toolbar>
                 </AppBar>
-                <AddRecipeDialog
+                <RecipeDialog
                     open={this.props.addRecipeDialogVisible}
                     close={() => {
                         this.props.setRecipeToEdit(null);

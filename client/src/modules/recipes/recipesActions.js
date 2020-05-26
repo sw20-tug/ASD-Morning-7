@@ -42,7 +42,6 @@ export const fetchRecipes = (dispatch, onlyFavourites = false) => {
 
     axios.get('recipes').then(res => {
         let recipes = res.data.map(recipe => prepareRecipeForClient(recipe));
-
         // filter if only favourites should get displayed
         if (onlyFavourites) {
             recipes = recipes.filter(recipe => recipe.isFavorite)
@@ -86,16 +85,13 @@ const prepareRecipeForServer = (recipe) => {
     return recipe;
 };
 
-const prepareRecipeForClient = (recipe) => {
+export const prepareRecipeForClient = (recipe) => {
     if (!recipe.hasOwnProperty('ingredients')) {
         console.log("Error: Recipe received from server has no ingredients", recipe);
-        // TODO: fix this!
-        recipe.ingredients = "cat;cat1;cat2";
-        // return;
+        return [];
     }
 
     recipe.ingredients = recipe.ingredients.split(';');
-    console.log(recipe.ingredients);
     return recipe;
 };
 
