@@ -9,7 +9,13 @@ import {
     ADD_RECIPE_FAILURE,
     EDIT_RECIPE_NAME,
     EDIT_RECIPE_NAME_SUCCESS,
-    EDIT_RECIPE_NAME_FAILURE
+    EDIT_RECIPE_NAME_FAILURE,
+    UPDATE_RECIPE,
+    UPDATE_RECIPE_SUCCESS,
+    UPDATE_RECIPE_FAILURE,
+    DELETE_RECIPE,
+    DELETE_RECIPE_SUCCESS,
+    DELETE_RECIPE_FAILURE, prepareRecipeForClient, SEARCH_RECIPES, contains, stringArrayContains
 } from "./recipesActions";
 
 const initState = {
@@ -25,12 +31,46 @@ const initState = {
 };
 
 const recipesReducer = (state = initState, action) => {
+    let recipesClone = null;
     switch (action.type) {
+        case UPDATE_RECIPE:
+            return {...state};
+        case UPDATE_RECIPE_SUCCESS:
+            recipesClone = [...state.recipes];
+            recipesClone.map((recipe, index) => {
+                if (recipe.hasOwnProperty('id') && recipe.id === action.recipe.id) {
+                    recipesClone[index] = action.recipe;
+                }
+            });
+            return {
+                ...state,
+                recipes: recipesClone
+            };
+        case UPDATE_RECIPE_FAILURE:
+            return {...state};
         case EDIT_RECIPE_NAME:
             return {...state};
         case EDIT_RECIPE_NAME_SUCCESS:
-            return {...state};
+            recipesClone = [...state.recipes];
+            recipesClone.map((recipe, index) => {
+                if (recipe.hasOwnProperty('id') && recipe.id === action.recipe.id) {
+                    recipesClone[index] = action.recipe;
+                }
+            });
+            return {
+                ...state,
+                recipes: recipesClone
+            };
         case EDIT_RECIPE_NAME_FAILURE:
+            return {...state};
+        case DELETE_RECIPE:
+            return {...state};
+        case DELETE_RECIPE_SUCCESS:
+            return {
+                ...state,
+                recipes: [...state.recipes].filter((recipe) => recipe.id !== action.recipe.id)
+            };
+        case DELETE_RECIPE_FAILURE:
             return {...state};
         case ADD_RECIPE:
             return {
@@ -87,6 +127,19 @@ const recipesReducer = (state = initState, action) => {
             return {
                 ...state,
                 showOnlyFavourites: false
+            };
+        case SEARCH_RECIPES:
+            return {
+                ...state,
+                recipes: [...action.recipes].filter(
+                    recipe =>
+                        contains(recipe.name, action.searchQuery) ||
+                        contains(recipe.description, action.searchQuery) ||
+                        contains(recipe.type, action.searchQuery) ||
+                        recipe.cookingTime.toString() === action.searchQuery ||
+                        recipe.preparationTime.toString() === action.searchQuery ||
+                        stringArrayContains(recipe.ingredients, action.searchQuery)
+                )
             };
         default:
             return state;

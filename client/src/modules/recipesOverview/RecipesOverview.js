@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {editRecipeName, fetchFavourites, fetchRecipes} from "../recipes/recipesActions";
+import {deleteRecipe, editRecipeName, fetchFavourites, fetchRecipes} from "../recipes/recipesActions";
 import RecipesList from "./components/RecipesList";
 import Typography from "@material-ui/core/Typography";
+import {TextField} from "@material-ui/core";
 
 
 class RecipesOverview extends React.Component {
@@ -31,7 +32,19 @@ class RecipesOverview extends React.Component {
         return (
             <div>
                 <Typography style={{marginTop: 50, marginBottom: 10}} variant="h4" component="h1">Recipes</Typography>
-                <RecipesList recipes={this.props.recipes} editRecipeName={this.props.editRecipeName}/>
+                <TextField
+                    variant="outlined"
+                    label="Search Recipes"
+                    onChange={(event) => this.props.searchRecipes(event.target.value)}
+                    style={{marginTop: 5, marginBottom: 10}}
+                />
+                <RecipesList
+                    recipes={this.props.recipes}
+                    editRecipeName={this.props.editRecipeName}
+                    showAddRecipeDialog={this.props.showAddRecipeDialog}
+                    setRecipeToEdit={this.props.setRecipeToEdit}
+                    deleteRecipe={this.props.deleteRecipe}
+                />
             </div>
         );
     }
@@ -51,7 +64,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchRecipes: () => fetchRecipes(dispatch),
         fetchFavourites: () => fetchFavourites(dispatch),
-        editRecipeName: (id, name) => editRecipeName(dispatch, id, name)
+        editRecipeName: (recipe, newName) => editRecipeName(dispatch, recipe, newName),
+        deleteRecipe: (recipe) => deleteRecipe(dispatch, recipe)
     };
 };
 
