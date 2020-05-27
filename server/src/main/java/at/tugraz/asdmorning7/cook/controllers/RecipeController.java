@@ -45,13 +45,8 @@ public class RecipeController {
     @PutMapping("/{id}")
     Recipe update(@RequestBody Recipe newRecipe, @PathVariable Long id) {
         return repository.findById(id).map(recipe -> {
-            recipe.setName(newRecipe.getName());
-            recipe.setDescription(newRecipe.getDescription());
-            recipe.setType(newRecipe.getType());
-            recipe.setCookingTime(newRecipe.getCookingTime());
-            recipe.setPreparationTime(newRecipe.getPreparationTime());
-            recipe.setThumbnail(newRecipe.getThumbnail());
-            return repository.save(recipe);
+            repository.deleteById(id);
+            return repository.save(newRecipe);
         }).orElseThrow(() -> new RecipeNotFoundException(id));
     }
 

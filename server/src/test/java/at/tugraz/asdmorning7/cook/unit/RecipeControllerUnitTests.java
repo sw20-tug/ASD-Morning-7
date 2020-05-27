@@ -47,11 +47,9 @@ class RecipesControllerUnitTest {
     @Test
     public void getAllRecipesTest() throws Exception {
         List<Recipe> recipes = new ArrayList<Recipe>();
-        // Recipe(String name, String description, String type, int preparationTime, int cookingTime,
-        // String cookingInstructions, String thumbnail, boolean isFavorite, Set<Step> steps)
-        recipes.add(new Recipe("r1", "d1", "t1", 1, 1, "do something", "thumbnail1", false, null));
-        recipes.add(new Recipe("r2", "d2", "t2", 2, 2, "do something", "thumbnail2", true, null));
-        recipes.add(new Recipe("r3", "d3", "t3", 3, 3, "do something", "thumbnail3", false, null));
+        recipes.add(new Recipe("r1", "d1", "t1", 1, 1, "do something", "thumbnail1", false, "i1", null));
+        recipes.add(new Recipe("r2", "d2", "t2", 2, 2, "do something", "thumbnail2", true, "i1", null));
+        recipes.add(new Recipe("r3", "d3", "t3", 3, 3, "do something", "thumbnail3", false, "i1", null));
 
         when(repository.findAll()).thenReturn(recipes);
 
@@ -62,12 +60,13 @@ class RecipesControllerUnitTest {
         JSONArray jsonArray = new JSONArray(content);
 
         assertEquals(recipes.size(), jsonArray.length());
+        verify(repository, times(1)).findAll();
     }
 
     @Test
     public void getRecipeByIdTest() throws Exception {
         Long expectedId = 1L;
-        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
+        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, "i1", null);
 
         when(repository.findById(expectedId)).thenReturn(java.util.Optional.of(r1));
 
@@ -79,11 +78,12 @@ class RecipesControllerUnitTest {
         JSONObject jsonObject = new JSONObject(content);
 
         assertEquals(r1.getName(), jsonObject.getString("name"));
+        verify(repository, times(1)).findById(expectedId);
     }
 
     @Test
     public void insertRecipe() throws Exception {
-        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
+        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, "i1", null);
 
         // Note: it is important to mock repository.save on: 'Mockito.any(Recipe.class)'
         // Otherwise it would fail and an empty response body would be received
@@ -111,8 +111,8 @@ class RecipesControllerUnitTest {
     @Test
     public void renameRecipeTest() throws Exception {
         Long expectedId = 1L;
-        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
-        Recipe r2 = new Recipe("r2", "d1", "t1", 1, 1, "i1", "thumbnail1", false, null);
+        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, "i1", null);
+        Recipe r2 = new Recipe("r2", "d1", "t1", 1, 1, "i1", "thumbnail1", false, "i1", null);
 
         when(repository.findById(expectedId)).thenReturn(java.util.Optional.of(r1));
         when(repository.save(Mockito.any(Recipe.class))).thenReturn(r2);
@@ -128,31 +128,65 @@ class RecipesControllerUnitTest {
         JSONObject jsonObject = new JSONObject(content);
 
         assertEquals(r2.getName(), jsonObject.getString("name"));
+        verify(repository, times(1)).findById(expectedId);
+        verify(repository, times(1)).save(Mockito.any(Recipe.class));
+    }
+
+    @Test
+    public void updateTest() throws Exception {
+        Long expectedId = 1L;
+        Long errorId = 2L;
+        Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, "i1", null);
+        Recipe r2 = new Recipe("r2", "d2", "t2", 2, 2, "i2", "thumbnail2", true, "i2", null);
+
+        doNothing().when(repository).deleteById(expectedId);
+        doThrow(new IllegalArgumentException()).when(repository).deleteById(errorId);
+        when(repository.findById(expectedId)).thenReturn(java.util.Optional.of(r1));
+        when(repository.save(Mockito.any(Recipe.class))).thenReturn(r2);
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
+            .put("/api/recipes/{id}", expectedId)
+            .accept(MediaType.APPLICATION_JSON)
+            .content(asJsonString(r2))
+            .contentType(MediaType.APPLICATION_JSON);
+
+        // Correct update
+        MvcResult result = mockMvc.perform(builder).andExpect(status().isOk()).andReturn();
+        String content = result.getResponse().getContentAsString();
+        assertEquals(asJsonString(r2), content);
+
+        // Update with non-existing ID
+        this.mockMvc.perform(
+            put("/api/recipes/{id}", errorId)
+        ).andExpect(status().isBadRequest());
+
+        verify(repository, times(1)).deleteById(expectedId);
+        verify(repository, times(1)).save(Mockito.any(Recipe.class));
     }
 
     @Test
     public void deleteTest() throws Exception {
-        Long expected_id = 1L;
-        Long error_id = 2L;
-        doNothing().when(repository).deleteById(expected_id);
-        doThrow(new IllegalArgumentException()).when(repository).deleteById(error_id);
+        Long expectedId = 1L;
+        Long errorId = 2L;
+        doNothing().when(repository).deleteById(expectedId);
+        doThrow(new IllegalArgumentException()).when(repository).deleteById(errorId);
 
-        //Correct delete
+        // Correct delete
         this.mockMvc.perform(
-                delete("/api/recipes/{id}", expected_id)
+            delete("/api/recipes/{id}", expectedId)
         ).andExpect(status().isOk());
 
-        //Delete with non existent id
+        // Delete with non-existing ID
         try {
             this.mockMvc.perform(
-                    delete("/api/recipes/{id}", error_id)
+                delete("/api/recipes/{id}", errorId)
             ).andExpect(status().isOk());
         }
         catch (Exception e) {
             assert(e.getMessage().contains("java.lang.IllegalArgumentException"));
         }
 
-        verify(repository, times(1)).deleteById(expected_id);
-        verify(repository, times(1)).deleteById(error_id);
+        verify(repository, times(1)).deleteById(expectedId);
+        verify(repository, times(1)).deleteById(errorId);
     }
 }
