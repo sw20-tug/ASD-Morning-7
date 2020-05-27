@@ -2,6 +2,7 @@ package at.tugraz.asdmorning7.cook.controllers;
 
 import at.tugraz.asdmorning7.cook.models.Recipe;
 import at.tugraz.asdmorning7.cook.repositories.RecipeRepository;
+import at.tugraz.asdmorning7.cook.repositories.StepRepository;
 import at.tugraz.asdmorning7.cook.exceptions.RecipeNotFoundException;
 
 import java.util.List;
@@ -22,9 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecipeController {
 
     private final RecipeRepository repository;
+    private final StepRepository stepRepository;
 
-    public RecipeController(RecipeRepository repository) {
+    public RecipeController(RecipeRepository repository, StepRepository stepRepository) {
         this.repository = repository;
+        this.stepRepository = stepRepository;
     }
 
     @GetMapping("")
@@ -45,8 +48,17 @@ public class RecipeController {
     @PutMapping("/{id}")
     Recipe update(@RequestBody Recipe newRecipe, @PathVariable Long id) {
         return repository.findById(id).map(recipe -> {
-            repository.deleteById(id);
-            return repository.save(newRecipe);
+            recipe.setName(newRecipe.getName());
+            recipe.setDescription(newRecipe.getDescription());
+            recipe.setType(newRecipe.getType());
+            recipe.setCookingTime(newRecipe.getCookingTime());
+            recipe.setPreparationTime(newRecipe.getPreparationTime());
+            recipe.setThumbnail(newRecipe.getThumbnail());
+            recipe.setIngredients(newRecipe.getIngredients());
+            recipe.setIsFavorite(newRecipe.getIsFavorite());
+            stepRepository.deleteInBatch(recipe.getSteps());
+            recipe.setSteps(newRecipe.getSteps());
+            return repository.save(recipe);
         }).orElseThrow(() -> new RecipeNotFoundException(id));
     }
 
