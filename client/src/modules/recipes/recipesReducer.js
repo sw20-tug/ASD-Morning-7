@@ -15,7 +15,7 @@ import {
     UPDATE_RECIPE_FAILURE,
     DELETE_RECIPE,
     DELETE_RECIPE_SUCCESS,
-    DELETE_RECIPE_FAILURE, prepareRecipeForClient
+    DELETE_RECIPE_FAILURE, prepareRecipeForClient, SEARCH_RECIPES, contains, stringArrayContains
 } from "./recipesActions";
 
 const initState = {
@@ -127,6 +127,19 @@ const recipesReducer = (state = initState, action) => {
             return {
                 ...state,
                 showOnlyFavourites: false
+            };
+        case SEARCH_RECIPES:
+            return {
+                ...state,
+                recipes: [...action.recipes].filter(
+                    recipe =>
+                        contains(recipe.name, action.searchQuery) ||
+                        contains(recipe.description, action.searchQuery) ||
+                        contains(recipe.type, action.searchQuery) ||
+                        recipe.cookingTime.toString() === action.searchQuery ||
+                        recipe.preparationTime.toString() === action.searchQuery ||
+                        stringArrayContains(recipe.ingredients, action.searchQuery)
+                )
             };
         default:
             return state;

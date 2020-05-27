@@ -23,6 +23,8 @@ export const DELETE_RECIPE = 'recipes/delete-recipe';
 export const DELETE_RECIPE_SUCCESS = 'recipes/delete-recipe-success';
 export const DELETE_RECIPE_FAILURE = 'recipes/delete-recipe-failure';
 
+export const SEARCH_RECIPES = 'recipes/search-recipes';
+
 export const editRecipeName = (dispatch, recipe, newName) => {
     dispatch({type: EDIT_RECIPE_NAME});
 
@@ -88,7 +90,8 @@ const prepareRecipeForServer = (recipe) => {
 export const prepareRecipeForClient = (recipe) => {
     if (!recipe.hasOwnProperty('ingredients')) {
         console.log("Error: Recipe received from server has no ingredients", recipe);
-        return [];
+        recipe.ingredients = [];
+        return recipe;
     }
 
     recipe.ingredients = recipe.ingredients.split(';');
@@ -145,4 +148,20 @@ export const deleteRecipe = (dispatch, recipe) => {
         dispatch({type: DELETE_RECIPE_FAILURE});
         console.log('Could not delete recipe', err);
     });
+};
+
+export const searchRecipes = (dispatch, searchQuery) => {
+    axios.get('recipes').then(res => {
+        dispatch({type: SEARCH_RECIPES, recipes: res.data.map(recipe => prepareRecipeForClient(recipe)), searchQuery});
+    });
+};
+
+export const contains = (text, searchQuery) => text.toLowerCase().includes(searchQuery.toLowerCase());
+export const stringArrayContains = (array, searchQuery) => {
+    for (let i = 0; i < array.length; i++) {
+        if (contains(array[i], searchQuery)) {
+            return true;
+        }
+    }
+    return false;
 };

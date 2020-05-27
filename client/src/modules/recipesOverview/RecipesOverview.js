@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {deleteRecipe, editRecipeName, fetchFavourites, fetchRecipes} from "../recipes/recipesActions";
 import RecipesList from "./components/RecipesList";
 import Typography from "@material-ui/core/Typography";
+import {TextField} from "@material-ui/core";
 
 
 class RecipesOverview extends React.Component {
@@ -31,6 +32,12 @@ class RecipesOverview extends React.Component {
         return (
             <div>
                 <Typography style={{marginTop: 50, marginBottom: 10}} variant="h4" component="h1">Recipes</Typography>
+                <TextField
+                    variant="outlined"
+                    label="Search Recipes"
+                    onChange={(event) => this.props.searchRecipes(event.target.value)}
+                    style={{marginTop: 5, marginBottom: 10}}
+                />
                 <RecipesList
                     recipes={this.props.recipes}
                     editRecipeName={this.props.editRecipeName}
