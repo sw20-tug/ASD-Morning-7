@@ -3,6 +3,7 @@ package at.tugraz.asdmorning7.cook.unit;
 import at.tugraz.asdmorning7.cook.models.Recipe;
 import at.tugraz.asdmorning7.cook.controllers.RecipeController;
 import at.tugraz.asdmorning7.cook.repositories.RecipeRepository;
+import at.tugraz.asdmorning7.cook.repositories.StepRepository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,6 +36,9 @@ class RecipesControllerUnitTest {
 
     @MockBean
     private RecipeRepository repository;
+
+    @MockBean
+    private StepRepository stepRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -139,8 +143,6 @@ class RecipesControllerUnitTest {
         Recipe r1 = new Recipe("r1", "d1", "t1", 1, 1, "i1", "thumbnail1", false, "i1", null);
         Recipe r2 = new Recipe("r2", "d2", "t2", 2, 2, "i2", "thumbnail2", true, "i2", null);
 
-        doNothing().when(repository).deleteById(expectedId);
-        doThrow(new IllegalArgumentException()).when(repository).deleteById(errorId);
         when(repository.findById(expectedId)).thenReturn(java.util.Optional.of(r1));
         when(repository.save(Mockito.any(Recipe.class))).thenReturn(r2);
 
@@ -160,7 +162,6 @@ class RecipesControllerUnitTest {
             put("/api/recipes/{id}", errorId)
         ).andExpect(status().isBadRequest());
 
-        verify(repository, times(1)).deleteById(expectedId);
         verify(repository, times(1)).save(Mockito.any(Recipe.class));
     }
 

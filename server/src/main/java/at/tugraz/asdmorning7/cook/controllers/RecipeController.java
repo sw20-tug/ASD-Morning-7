@@ -7,6 +7,7 @@ import at.tugraz.asdmorning7.cook.exceptions.RecipeNotFoundException;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/recipes")
 public class RecipeController {
 
+    @Autowired
     private final RecipeRepository repository;
+
+    @Autowired
     private final StepRepository stepRepository;
 
     public RecipeController(RecipeRepository repository, StepRepository stepRepository) {
