@@ -18,6 +18,7 @@ class App extends React.Component {
     }
 
     setDisableRecipeDialogInputs = (flag) => {
+        console.log("CHANGE", flag);
         this.setState({disableRecipeDialogInputs: flag});
     };
 
@@ -37,7 +38,7 @@ class App extends React.Component {
                         setRecipeToEdit={this.setRecipeToEdit}
                         updateRecipe={this.props.updateRecipe}
                         setDisableRecipeDialogInputs={this.setDisableRecipeDialogInputs}
-                        disableRecipeDialogInputs={this.props.disableRecipeDialogInputs}
+                        disableRecipeDialogInputs={this.state.disableRecipeDialogInputs}
                     />
                     <Switch>
                         <Route exact path={'/'} render={(props) => {

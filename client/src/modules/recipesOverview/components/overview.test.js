@@ -41,7 +41,6 @@ const tableContainerJson = render.create(<RecipesList recipes={generateRecipes()
 
 test('check the table head', () => {
     // render recipe list (table)
-
     const tableHead = tableContainerJson.children[0].children[0].children[0];
     expect(tableHead.children[0].children[0].children[0]).toBe('Name');
     expect(tableHead.children[1].children[0].children[0]).toBe('Preparation time (min)');

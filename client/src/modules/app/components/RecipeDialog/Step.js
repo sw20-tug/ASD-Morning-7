@@ -29,7 +29,7 @@ export default function Step(props) {
             }}>
                 <Typography variant="h6">Step {props.number}</Typography>
 
-                {props.stepsCount > 1 ?
+                {(props.stepsCount > 1 && !props.disableEditing) ?
                     <IconButton color={'secondary'} onClick={() => props.removeStep(stepIndex)}>
                         <DeleteIcon/>
                     </IconButton> : null}

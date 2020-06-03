@@ -18,6 +18,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 
 export default function RecipeDialog(props) {
 
+    console.log("FLAG", props.disableEditing);
     const [oldRecipeInit, setOldRecipeInit] = useState(null);
 
     const initRecipe = {
