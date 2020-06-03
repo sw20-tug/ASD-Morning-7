@@ -43,10 +43,10 @@ test('check the table head', () => {
     // render recipe list (table)
 
     const tableHead = tableContainerJson.children[0].children[0].children[0];
-    expect(tableHead.children[0].children[0]).toBe('Name');
-    expect(tableHead.children[1].children[0]).toBe('Preparation time (min)');
-    expect(tableHead.children[2].children[0]).toBe('Cooking time (min)');
-    expect(tableHead.children[3].children[0]).toBe('Type');
+    expect(tableHead.children[0].children[0].children[0]).toBe('Name');
+    expect(tableHead.children[1].children[0].children[0]).toBe('Preparation time (min)');
+    expect(tableHead.children[2].children[0].children[0]).toBe('Cooking time (min)');
+    expect(tableHead.children[3].children[0].children[0]).toBe('Type');
 });
 
 test('check if there is the correct amount of recipes inside the recipe overview table', () => {

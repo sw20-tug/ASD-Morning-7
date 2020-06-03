@@ -20,7 +20,7 @@ test('check navigation title', () => {
 const navigationItems = navigationJson.children[0].children[0].children[1];
 test('check navigation menu item names', () => {
     expect(navigationItems.children[0].children[0].children[0]).toBe('All Recipes');
-    expect(navigationItems.children[1].children[0].children[0]).toBe('Favourites');
+    expect(navigationItems.children[1].children[0].children[0]).toBe('Favorites');
     // todo add recipe check
 });
 
