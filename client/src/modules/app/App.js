@@ -12,9 +12,15 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            recipeToEdit: null
+            recipeToEdit: null,
+            disableRecipeDialogInputs: false
         }
     }
+
+    setDisableRecipeDialogInputs = (flag) => {
+        console.log("CHANGE", flag);
+        this.setState({disableRecipeDialogInputs: flag});
+    };
 
     setRecipeToEdit = (recipe) => this.setState({recipeToEdit: recipe});
 
@@ -31,6 +37,8 @@ class App extends React.Component {
                         recipeToEdit={this.state.recipeToEdit}
                         setRecipeToEdit={this.setRecipeToEdit}
                         updateRecipe={this.props.updateRecipe}
+                        setDisableRecipeDialogInputs={this.setDisableRecipeDialogInputs}
+                        disableRecipeDialogInputs={this.state.disableRecipeDialogInputs}
                     />
                     <Switch>
                         <Route exact path={'/'} render={(props) => {
@@ -39,6 +47,7 @@ class App extends React.Component {
                                 showAddRecipeDialog={this.props.showAddRecipeDialog}
                                 setRecipeToEdit={this.setRecipeToEdit}
                                 searchRecipes={this.props.searchRecipes}
+                                setDisableRecipeDialogInputs={this.setDisableRecipeDialogInputs}
                             />
                         }}
                         />

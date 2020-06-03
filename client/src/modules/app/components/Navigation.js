@@ -24,7 +24,7 @@ class Navigation extends React.Component {
                             <Button color="inherit" onClick={() => this.props.showOnlyFavourites(false)}>All
                                 Recipes</Button>
                             <Button color="inherit"
-                                    onClick={() => this.props.showOnlyFavourites(true)}>Favourites</Button>
+                                    onClick={() => this.props.showOnlyFavourites(true)}>Favorites</Button>
                             <Button color="inherit" onClick={this.props.showAddRecipeDialog}>Add Recipe</Button>
                         </div>
                     </Toolbar>
@@ -34,11 +34,14 @@ class Navigation extends React.Component {
                     close={() => {
                         this.props.setRecipeToEdit(null);
                         this.props.hideAddRecipeDialog();
+                        this.props.setDisableRecipeDialogInputs(false);
                     }}
                     addRecipe={this.props.addRecipe}
                     updateRecipe={this.props.updateRecipe}
                     recipeToEdit={this.props.recipeToEdit}
                     setRecipeToEdit={this.props.setRecipeToEdit}
+                    disableEditing={this.props.disableRecipeDialogInputs}
+                    setDisableRecipeDialogInputs={this.props.setDisableRecipeDialogInputs}
                 />
             </div>
         );

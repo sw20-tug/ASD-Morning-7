@@ -62,9 +62,10 @@ export default function ThumbnailUploader(props) {
         <Typography variant="body1">
             Thumbnail was set successfully
         </Typography>
-        <IconButton color={'secondary'} onClick={() => props.setThumbnail("")}>
+        {props.disableEditing ? null : <IconButton color={'secondary'} onClick={() => props.setThumbnail("")}>
             <DeleteIcon/>
-        </IconButton>
+        </IconButton>}
+
     </div>;
 
 }
