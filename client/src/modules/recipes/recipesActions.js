@@ -125,6 +125,7 @@ export const updateRecipe = (dispatch, recipe) => {
         return;
     }
 
+    recipe.steps = recipe.steps.map(({id, ...otherProperties}) => otherProperties);
     axios.put('recipes/' + recipe.id, prepareRecipeForServer(recipe)).then(res => {
         dispatch({type: UPDATE_RECIPE_SUCCESS, recipe: prepareRecipeForClient(res.data)});
         hideAddRecipeDialog(dispatch);

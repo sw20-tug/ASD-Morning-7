@@ -49,14 +49,12 @@ public class RecipeController {
 
     @GetMapping("/{id}")
     Recipe getById(@PathVariable Long id) {
-        Recipe recipe = repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
-        return recipe;
+        return repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
     }
 
     @PostMapping("")
     public Recipe insert(@RequestBody Recipe recipe) {
-
-        if(recipe.getSteps() != null)
+        if (recipe.getSteps() != null)
             recipe.getSteps().sort(new StepComperator());
 
         return repository.save(recipe);
@@ -75,7 +73,7 @@ public class RecipeController {
             recipe.setIsFavorite(newRecipe.getIsFavorite());
             stepRepository.deleteInBatch(recipe.getSteps());
 
-            if(recipe.getSteps() != null)
+            if (recipe.getSteps() != null)
                 newRecipe.getSteps().sort(new StepComperator());
 
             recipe.setSteps(newRecipe.getSteps());
