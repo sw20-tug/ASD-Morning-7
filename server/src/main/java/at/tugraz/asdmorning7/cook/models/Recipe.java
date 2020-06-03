@@ -1,5 +1,6 @@
 package at.tugraz.asdmorning7.cook.models;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -47,13 +48,13 @@ public class Recipe {
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     @JsonManagedReference("recipe_steps")
-    private Set<Step> steps;
+    private List<Step> steps;
 
     public Recipe() {
     }
 
     public Recipe(String name, String description, String type, int preparationTime, int cookingTime,
-            String cookingInstructions, String thumbnail, boolean isFavorite, String ingredients, Set<Step> steps) {
+            String cookingInstructions, String thumbnail, boolean isFavorite, String ingredients, List<Step> steps) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -100,7 +101,7 @@ public class Recipe {
         return isFavorite;
     }
 
-    public Set<Step> getSteps() {
+    public List<Step> getSteps() {
         return steps;
     }
 
@@ -139,7 +140,7 @@ public class Recipe {
         this.isFavorite = isFavorite;
     }
 
-    public void setSteps(Set<Step> steps) {
+    public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
 
