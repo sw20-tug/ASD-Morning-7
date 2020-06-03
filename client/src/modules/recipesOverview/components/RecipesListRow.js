@@ -54,8 +54,14 @@ export default function RecipesListRow(props) {
         setEditMode(false)
     };
 
-    return <TableRow key={props.index}>
-        <TableCell>
+    return <TableRow
+        key={props.index}
+    >
+        <TableCell style={{cursor: 'pointer'}} onClick={() => {
+            props.setDisableRecipeDialogInputs(true);
+            props.setRecipeToEdit(props.recipe);
+            props.showAddRecipeDialog();
+        }}>
             <div style={{display: 'flex', alignItems: 'center'}}>
 
                 <img style={{height: 75, marginRight: 15, borderRadius: 5}} alt="thumbnail"

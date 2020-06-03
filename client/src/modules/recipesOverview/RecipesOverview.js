@@ -44,6 +44,7 @@ class RecipesOverview extends React.Component {
                     showAddRecipeDialog={this.props.showAddRecipeDialog}
                     setRecipeToEdit={this.props.setRecipeToEdit}
                     deleteRecipe={this.props.deleteRecipe}
+                    setDisableRecipeDialogInputs={this.props.setDisableRecipeDialogInputs}
                 />
             </div>
         );
