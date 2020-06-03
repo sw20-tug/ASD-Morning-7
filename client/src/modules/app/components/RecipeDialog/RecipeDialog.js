@@ -17,8 +17,6 @@ import FormGroup from "@material-ui/core/FormGroup";
 // let recipeToEditInit = false;
 
 export default function RecipeDialog(props) {
-
-    console.log("FLAG", props.disableEditing);
     const [oldRecipeInit, setOldRecipeInit] = useState(null);
 
     const initRecipe = {
@@ -200,13 +198,20 @@ export default function RecipeDialog(props) {
 
     const buildApplyButtonLabel = () => recipe.hasOwnProperty('id') ? 'Update Recipe' : 'Add Recipe';
 
+    const buildTitle = () => {
+        if (props.disableEditing) {
+            return 'View Recipe';
+        }
+        return recipe.hasOwnProperty('id') ? 'Update recipe' : 'Add a new recipe'
+    };
+
     return (
         <Dialog
             open={props.open}
             onClose={props.close}
             maxWidth='sm'
         >
-            <DialogTitle>{recipe.hasOwnProperty('id') ? 'Update recipe' : 'Add a new recipe'}</DialogTitle>
+            <DialogTitle>{buildTitle()}</DialogTitle>
             <DialogContent>
                 <TextField
                     key="name"
