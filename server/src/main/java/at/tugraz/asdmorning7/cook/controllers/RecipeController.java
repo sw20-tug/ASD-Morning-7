@@ -1,11 +1,12 @@
 package at.tugraz.asdmorning7.cook.controllers;
 
 import at.tugraz.asdmorning7.cook.models.Recipe;
+import at.tugraz.asdmorning7.cook.models.Step;
 import at.tugraz.asdmorning7.cook.repositories.RecipeRepository;
 import at.tugraz.asdmorning7.cook.repositories.StepRepository;
 import at.tugraz.asdmorning7.cook.exceptions.RecipeNotFoundException;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +18,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+class StepComperator implements Comparator<Step> {
+    @Override
+    public int compare(Step s1, Step s2) {
+        return s1.getNumber().compareTo(s2.getNumber());
+    }
+}
 
 @CrossOrigin
 @RestController
@@ -41,11 +49,16 @@ public class RecipeController {
 
     @GetMapping("/{id}")
     Recipe getById(@PathVariable Long id) {
-        return repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
+        Recipe recipe = repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
+        return recipe;
     }
 
     @PostMapping("")
     public Recipe insert(@RequestBody Recipe recipe) {
+
+        if(recipe.getSteps() != null)
+            recipe.getSteps().sort(new StepComperator());
+
         return repository.save(recipe);
     }
 
@@ -61,6 +74,10 @@ public class RecipeController {
             recipe.setIngredients(newRecipe.getIngredients());
             recipe.setIsFavorite(newRecipe.getIsFavorite());
             stepRepository.deleteInBatch(recipe.getSteps());
+
+            if(recipe.getSteps() != null)
+                newRecipe.getSteps().sort(new StepComperator());
+
             recipe.setSteps(newRecipe.getSteps());
             return repository.save(recipe);
         }).orElseThrow(() -> new RecipeNotFoundException(id));
