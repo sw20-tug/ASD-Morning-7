@@ -4,13 +4,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import {TextField} from "@material-ui/core";
+import {FormControlLabel, TextField} from "@material-ui/core";
 import ThumbnailUploader from "./ThumbnailUploader";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add'
 import Step from "./Step";
 import {prepareRecipeForClient} from "../../../recipes/recipesActions";
+import Checkbox from '@material-ui/core/Checkbox';
+import FormGroup from "@material-ui/core/FormGroup";
 
 // let recipeToEditInit = false;
 
@@ -35,28 +37,11 @@ export default function RecipeDialog(props) {
         ingredients: [""],
         preparationTime: 0,
         cookingTime: 0,
-        thumbnail: ""
+        thumbnail: "",
+        isFavorite: false
     };
 
-    const [recipe, setRecipe] = useState({
-        name: "",
-        type: "",
-        description: "",
-        steps: [{
-            // this will be set after
-            // before sending the
-            // finished recipe
-            // to the api
-            number: -1,
-            name: "",
-            content: "",
-            image: ""
-        }],
-        ingredients: [""],
-        preparationTime: 0,
-        cookingTime: 0,
-        thumbnail: ""
-    });
+    const [recipe, setRecipe] = useState({...initRecipe});
 
     // reset recipe to edit
     if (props.recipeToEdit === undefined || props.recipeToEdit === null) {
@@ -158,17 +143,21 @@ export default function RecipeDialog(props) {
                         variant="outlined"
                         value={(recipe.ingredients[counter] === undefined) ? "" : recipe.ingredients[counter]}
                         onChange={(event) => setIngredient(counter, event.target.value)}
+                        disabled={props.disableEditing}
                     />
-                    <div style={{marginLeft: 10}}>
+                    {props.disableEditing ? null :
+                        <div style={{marginLeft: 10}}>
                         <IconButton
-                            color={buttonProperties.color}
-                            onClick={buttonProperties.action}
-                            variant="contained"
+                        color={buttonProperties.color}
+                        onClick={buttonProperties.action}
+                        variant="contained"
                         >
-                            {buttonProperties.isDeleteIcon ? <DeleteIcon/> : <AddIcon/>}
+                        {buttonProperties.isDeleteIcon ? <DeleteIcon/> : <AddIcon/>}
                         </IconButton>
 
-                    </div>
+                        </div>
+                    }
+
                 </div>
             );
         }
@@ -187,6 +176,7 @@ export default function RecipeDialog(props) {
                     stepsCount={recipe.steps.length}
                     setStep={setStep}
                     removeStep={removeStep}
+                    disableEditing={props.disableEditing}
                 />
             );
         }
@@ -194,7 +184,18 @@ export default function RecipeDialog(props) {
         return steps;
     };
 
-    const buildApplyButtonAction = () => recipe.hasOwnProperty('id') ? props.updateRecipe(recipe) : props.addRecipe(recipe);
+    const buildApplyButtonAction = () => {
+        if (!recipe.thumbnail ||
+            !recipe.name ||
+            !recipe.type ||
+            !recipe.description ||
+            !recipe.cookingTime ||
+            !recipe.preparationTime) {
+            return alert("Please check your input");
+        }
+
+        return recipe.hasOwnProperty('id') ? props.updateRecipe(recipe) : props.addRecipe(recipe);
+    };
 
     const buildApplyButtonLabel = () => recipe.hasOwnProperty('id') ? 'Update Recipe' : 'Add Recipe';
 
@@ -213,7 +214,21 @@ export default function RecipeDialog(props) {
                     value={recipe.name}
                     variant="outlined"
                     onChange={(event) => setRecipe({...recipe, name: event.target.value})}
+                    disabled={props.disableEditing}
                 />
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={recipe.isFavorite}
+                                onChange={(event) => setRecipe({...recipe, isFavorite: event.target.checked})}
+                                name="is favorite checkbox"
+                                color="primary"
+                                disabled={props.disableEditing}
+                            />
+                        }
+                        label="Add to favorite recipes"/>
+                </FormGroup>
                 <TextField
                     key="category"
                     style={{marginTop: 10, width: '100%'}}
@@ -221,6 +236,7 @@ export default function RecipeDialog(props) {
                     value={recipe.type}
                     variant="outlined"
                     onChange={(event) => setRecipe({...recipe, type: event.target.value})}
+                    disabled={props.disableEditing}
                 />
                 <TextField
                     key="description"
@@ -231,6 +247,7 @@ export default function RecipeDialog(props) {
                     multiline
                     rows="4"
                     onChange={(event) => setRecipe({...recipe, description: event.target.value})}
+                    disabled={props.disableEditing}
                 />
                 <div style={{marginTop: 10, width: '100%'}}>
                     <TextField
@@ -240,6 +257,7 @@ export default function RecipeDialog(props) {
                         value={recipe.preparationTime}
                         variant="outlined"
                         onChange={(event) => setRecipe({...recipe, preparationTime: event.target.value})}
+                        disabled={props.disableEditing}
                     />
                     <TextField
                         key="cooking-time"
@@ -248,6 +266,7 @@ export default function RecipeDialog(props) {
                         value={recipe.cookingTime}
                         variant="outlined"
                         onChange={(event) => setRecipe({...recipe, cookingTime: event.target.value})}
+                        disabled={props.disableEditing}
                     />
                 </div>
 
@@ -255,7 +274,11 @@ export default function RecipeDialog(props) {
                     {buildIngredientTextFields()}
                 </div>
 
-                <ThumbnailUploader setThumbnail={setThumbnail} thumbnail={recipe.thumbnail}/>
+                <ThumbnailUploader
+                    setThumbnail={setThumbnail}
+                    thumbnail={recipe.thumbnail}
+                    disableEditing={props.disableEditing}
+                />
 
                 {generateSteps()}
 
@@ -267,10 +290,15 @@ export default function RecipeDialog(props) {
 
             </DialogContent>
             <DialogActions>
-                <Button variant={'contained'} onClick={props.close}>Cancel</Button>
-                <Button variant={'contained'} onClick={buildApplyButtonAction} color="primary">
-                    {buildApplyButtonLabel()}
-                </Button>
+                <Button variant={'contained'} onClick={() => {
+                    props.close();
+                    props.setDisableRecipeDialogInputs(false);
+                }}>Cancel</Button>
+                {props.disableEditing ?
+                    null :
+                    <Button variant={'contained'} onClick={buildApplyButtonAction} color="primary">
+                        {buildApplyButtonLabel()}
+                    </Button>}
             </DialogActions>
         </Dialog>
     );
