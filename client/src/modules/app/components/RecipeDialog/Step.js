@@ -7,8 +7,13 @@ import DeleteIcon from "@material-ui/icons/Delete"
 
 export default function Step(props) {
 
+    const stepIndex = props.number - 1;
+
     const setThumbnail = (thumbnail) => {
-        props.setStep(props.id - 1, 'image', thumbnail);
+        if (props.disableEditing) {
+            return;
+        }
+        props.setStep(stepIndex, 'image', thumbnail);
     };
 
     return (
@@ -22,10 +27,10 @@ export default function Step(props) {
                 alignItems: 'center',
                 justifyContent: 'space-between'
             }}>
-                <Typography variant="h6">Step {props.id}</Typography>
+                <Typography variant="h6">Step {props.number}</Typography>
 
-                {(props.stepsCount > 1) ?
-                    <IconButton color={'secondary'} onClick={() => props.removeStep(props.number - 1)}>
+                {(props.stepsCount > 1 && !props.disableEditing) ?
+                    <IconButton color={'secondary'} onClick={() => props.removeStep(stepIndex)}>
                         <DeleteIcon/>
                     </IconButton> : null}
             </div>
@@ -34,8 +39,9 @@ export default function Step(props) {
                 style={{marginTop: 10, width: '100%'}}
                 label="Name"
                 variant="outlined"
-                onChange={(event) => props.setStep(props.id - 1, 'name', event.target.value)}
-                value={props.name}
+                onChange={(event) => props.setStep(stepIndex, 'name', event.target.value)}
+                value={props.step.name}
+                disabled={props.disableEditing}
             />
             <TextField
                 style={{marginTop: 10, width: '100%'}}
@@ -43,13 +49,15 @@ export default function Step(props) {
                 variant="outlined"
                 multiline
                 rows="4"
-                onChange={(event) => props.setStep(props.id - 1, 'content', event.target.value)}
-                value={props.content}
+                onChange={(event) => props.setStep(stepIndex, 'content', event.target.value)}
+                value={props.step.content}
+                disabled={props.disableEditing}
             />
 
             <ThumbnailUploader
                 setThumbnail={setThumbnail}
-                thumbnail={props.image}
+                thumbnail={props.step.image}
+                disableEditing={props.disableEditing}
                 overwrittenStyle={{
                     backgroundColor: '#eeeeee',
                     height: 100

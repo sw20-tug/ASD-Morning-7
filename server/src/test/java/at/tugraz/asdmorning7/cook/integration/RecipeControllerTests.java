@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 @SpringBootTest
-public class RecipesControllerTests {
+public class RecipeControllerTests {
 
     @Autowired
     private RecipeController controller;
