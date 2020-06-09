@@ -146,13 +146,13 @@ export default function RecipeDialog(props) {
                     />
                     {props.disableEditing ? null :
                         <div style={{marginLeft: 10}}>
-                        <IconButton
-                        color={buttonProperties.color}
-                        onClick={buttonProperties.action}
-                        variant="contained"
-                        >
-                        {buttonProperties.isDeleteIcon ? <DeleteIcon/> : <AddIcon/>}
-                        </IconButton>
+                            <IconButton
+                                color={buttonProperties.color}
+                                onClick={buttonProperties.action}
+                                variant="contained"
+                            >
+                                {buttonProperties.isDeleteIcon ? <DeleteIcon/> : <AddIcon/>}
+                            </IconButton>
 
                         </div>
                     }
@@ -288,11 +288,13 @@ export default function RecipeDialog(props) {
 
                 {generateSteps()}
 
-                <div style={{marginTop: 10}}>
-                    <Button variant="contained" color="primary" onClick={addStep}>
-                        Add Step
-                    </Button>
-                </div>
+                {props.disableEditing ? null :
+                    <div style={{marginTop: 10}}>
+                        <Button variant="contained" color="primary" onClick={addStep}>
+                            Add Step
+                        </Button>
+                    </div>
+                }
 
             </DialogContent>
             <DialogActions>
