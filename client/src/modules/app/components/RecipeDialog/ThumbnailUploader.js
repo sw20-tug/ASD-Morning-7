@@ -18,7 +18,7 @@ export default function ThumbnailUploader(props) {
         justifyContent: 'center',
     };
 
-    return (!props.thumbnail) ? (
+    return (!props.thumbnail && !props.disableEditing) ? (
         <div style={{marginTop: 10, width: '100%'}}>
             <Dropzone onDrop={useCallback((acceptedFiles => {
 
@@ -60,7 +60,7 @@ export default function ThumbnailUploader(props) {
         padding: '15px 25px'
     }}>
         <Typography variant="body1">
-            Thumbnail was set successfully
+            {!props.thumbnail ? "No thumbnail available" : "Thumbnail was set"}
         </Typography>
         {props.disableEditing ? null : <IconButton color={'secondary'} onClick={() => props.setThumbnail("")}>
             <DeleteIcon/>
