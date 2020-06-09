@@ -22,6 +22,7 @@ export default function RecipesListRow(props) {
         onClose={() => setContextMenuAnchorElement(null)}
     >
         <MenuItem onClick={() => {
+            setNameEdited(props.recipe.name);
             setEditMode(true);
             setContextMenuAnchorElement(null);
         }}>
@@ -29,6 +30,9 @@ export default function RecipesListRow(props) {
         </MenuItem>
 
         <MenuItem onClick={() => {
+            if (editMode) {
+                setEditMode(false);
+            }
             props.setRecipeToEdit(props.recipe);
             props.showAddRecipeDialog();
             setContextMenuAnchorElement(null);
@@ -51,13 +55,16 @@ export default function RecipesListRow(props) {
         if (nameEdited !== props.recipe.name) {
             props.editRecipeName(props.recipe, nameEdited);
         }
-        setEditMode(false)
+        setEditMode(false);
     };
 
     return <TableRow
         key={props.index}
     >
-        <TableCell style={{cursor: 'pointer'}} onClick={() => {
+        <TableCell style={{cursor: (editMode) ? 'default' : 'pointer'}} onClick={() => {
+            if (editMode) {
+                return;
+            }
             props.setDisableRecipeDialogInputs(true);
             props.setRecipeToEdit(props.recipe);
             props.showAddRecipeDialog();

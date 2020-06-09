@@ -36,8 +36,14 @@ class Navigation extends React.Component {
                         this.props.hideAddRecipeDialog();
                         this.props.setDisableRecipeDialogInputs(false);
                     }}
-                    addRecipe={this.props.addRecipe}
-                    updateRecipe={this.props.updateRecipe}
+                    addRecipe={(recipe) => {
+                        this.props.addRecipe(JSON.parse(JSON.stringify(recipe)));
+                        this.props.setRecipeToEdit(null);
+                    }}
+                    updateRecipe={(recipe) => {
+                        this.props.updateRecipe(JSON.parse(JSON.stringify(recipe)));
+                        this.props.setRecipeToEdit(null);
+                    }}
                     recipeToEdit={this.props.recipeToEdit}
                     setRecipeToEdit={this.props.setRecipeToEdit}
                     disableEditing={this.props.disableRecipeDialogInputs}

@@ -18,7 +18,6 @@ class App extends React.Component {
     }
 
     setDisableRecipeDialogInputs = (flag) => {
-        console.log("CHANGE", flag);
         this.setState({disableRecipeDialogInputs: flag});
     };
 
