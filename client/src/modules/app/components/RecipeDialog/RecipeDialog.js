@@ -193,7 +193,9 @@ export default function RecipeDialog(props) {
             return alert("Please check your input");
         }
 
-        return recipe.hasOwnProperty('id') ? props.updateRecipe(recipe) : props.addRecipe(recipe);
+        const recipeClone = JSON.parse(JSON.stringify(recipe));
+        setRecipe(initRecipe);
+        return recipe.hasOwnProperty('id') ? props.updateRecipe(recipeClone) : props.addRecipe(recipeClone);
     };
 
     const buildApplyButtonLabel = () => recipe.hasOwnProperty('id') ? 'Update Recipe' : 'Add Recipe';
